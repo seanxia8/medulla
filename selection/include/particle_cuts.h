@@ -94,14 +94,22 @@ namespace pcuts
      * @return true if the particle is a final state signal particle.
      */
     template<class T>
-    bool final_state_signal(const T & p)
+    bool final_state_signal(const T & p, bool is_nue=false)
     {
         bool passes(false);
         if(pvars::primary_classification(p))
         {
             double energy(pvars::ke(p));
-            if((pvars::pid(p) == 2 && energy > 143.425) || (pvars::pid(p) != 2 && pvars::pid(p) < 4 && energy > 25) || (pvars::pid(p) == 4 && energy > 50))
-                passes = true;
+	    if(!is_nue)
+	      {
+		  if((pvars::pid(p) == 2 && energy > 143.425) || (pvars::pid(p) != 2 && pvars::pid(p) < 4 && energy > 25) || (pvars::pid(p) == 4 && energy > 50))
+		    passes = true;
+	      }
+	    else
+	      {
+		  if((pvars::pid(p) == 1 && energy > 50) || (pvars::pid(p) == 4 && energy > 50) || (energy > 25))
+		    passes = true;		
+	      }
         }
         return passes;
     }
