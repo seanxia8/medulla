@@ -41,12 +41,12 @@ namespace utilities
      * interaction.
      */
     template<class T>
-        std::vector<uint32_t> count_primaries(const T & obj)
+    std::vector<uint32_t> count_primaries(const T & obj, bool is_nue=false)
         {
             std::vector<uint32_t> counts(5, 0);
             for(auto &p : obj.particles)
             {
-                if(pcuts::final_state_signal(p))
+	        if(pcuts::final_state_signal(p, is_nue))
                     ++counts[pvars::pid(p)];
             }
             return counts;
