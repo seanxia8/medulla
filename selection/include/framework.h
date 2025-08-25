@@ -170,14 +170,37 @@ using SelectorFactoryRegistry = Registry<SelectorFactory<EventT>>;
  * @return A std::function<ValueT(const EventT&)> that applies the cut to an
  * event.
  */
-template<auto F, typename EventT, typename ValueT>
-inline std::function<ValueT(const EventT&)> bind(const std::vector<double>& pars)
+template<auto F, typename EventT, typename ValueT, typename... ExtraArgs>
+inline std::function<ValueT(const EventT&)> bind(const std::vector<double>& pars, ExtraArgs... args)
 {
-    if constexpr(std::is_invocable_v<decltype(F), const EventT&, const std::vector<double>&>)
+    if constexpr(std::is_invocable_v<decltype(F), const EventT&, const std::vector<double>&, ExtraArgs...>) {
+        return [pars](const EventT& e, ExtraArgs... args) { return F(e, pars, args...); };
+    }
+    else if constexpr(std::is_invocable_v<decltype(F), const EventT&, const std::vector<double>&>) {
         return [pars](const EventT& e){ return F(e, pars); };
-    else
-        return [=](const EventT& e){ return F(e); };
+    }
+    else if constexpr(std::is_invocable_v<decltype(F), const EventT&, ExtraArgs...>) {
+        return [args...](const EventT& e){ return F(e, args...); };
+    }
+    else if constexpr(std::is_invocable_v<decltype(F), const EventT&>) {
+        return [](const EventT& e){ return F(e); };
+    }
+    else if constexpr(std::is_invocable_v<decltype(F), const EventT&, bool>) {
+        if constexpr(sizeof...(ExtraArgs) > 0) {
+            // If ExtraArgs contains a bool, use it
+            return [args...](const EventT& e){ return F(e, args...); };
+        }
+        else {
+            // Default case
+            return [](const EventT& e){ return F(e, false); };
+        }
+    }
+    else {
+        static_assert(sizeof(EventT) == 0, "Function F cannot be called with available parameters");
+    }
+
 }
+
 
 /**
  * @brief Scope for registration macros
