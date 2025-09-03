@@ -6,6 +6,7 @@
  * file, initializing the analysis framework, and running the analysis.
  * @author mueller@fnal.gov
  */
+
 #define PLACEHOLDERVALUE std::numeric_limits<double>::quiet_NaN()
 #define PROTON_BINDING_ENERGY 30.9 // MeV
 #define BEAM_IS_NUMI false
@@ -20,7 +21,9 @@
 #include "framework.h"
 #include "scorers.h"
 #include "cuts.h"
+#include "nue2025/cuts_nue2025.h"
 #include "variables.h"
+#include "nue2025/variables_nue.h"
 #include "mctruth.h"
 #include "event_cuts.h"
 #include "event_variables.h"
@@ -95,8 +98,10 @@ int main(int argc, char * argv[])
                         true_cut_functions.push_back([fn](const TType & e) { return !fn(e); });
                     }
                     else
+                    {
                         // Otherwise, we just add the function as is.
                         true_cut_functions.push_back(factory(params));
+                    }
                 }
                 // Compose a common cut function for the category.
                 auto category_cut = [true_cut_functions](const TType & e) -> bool {

@@ -59,19 +59,112 @@ namespace selectors
     }
 
     /**
-     * @brief Finds the index corresponding to the leading photon.
-     * @details The leading photon is defined as the photon with the highest
-     * kinetic energy.
+     * @brief Finds the index corresponding to the leading primary particle of the
+     * specifed particle type.
+     * @details The leading primary particle is defined as the primary particle
+     * with the highest kinetic energy. If the interaction is a true interaction,
+     * the initial kinetic energy is used instead of the CSDA kinetic energy.
      * @tparam T the type of interaction (true or reco).
      * @param obj the interaction to operate on.
-     * @return the index of the leading photon (highest KE).
+     * @param pid of the particle type.
+     * @return the index of the leading primary particle (highest KE).
+     */
+    template <class T>
+        size_t leading_primary_particle_index(const T & obj, uint16_t pid)
+        {
+            double leading_ke(0);
+            size_t index(0);
+            size_t counts(0);
+            for(size_t i(0); i < obj.particles.size(); ++i)
+            {
+                const auto & p = obj.particles[i];
+                double energy(p.ke);
+                if (pcuts::is_primary(p)) ++counts;
+                if constexpr (std::is_same_v<T, caf::SRInteractionTruthDLPProxy>)
+                    energy = pvars::ke(p);
+                if(pvars::pid(p) == pid && (pcuts::is_primary(p)) && energy > leading_ke)
+                {
+                    leading_ke = energy;
+                    index = i;
+                }
+            }
+            if (counts > 0)
+                return index;
+            else
+                return leading_particle_index(obj, pid);
+        }
+
+    /**
+     * @brief Finds the index corresponding to the leading primary electron.
+     * @details The leading muon is defined as the muon with the highest
+     * kinetic energy. If the interaction is a true interaction, the initial
+     * kinetic energy is used instead of the CSDA kinetic energy.
+     * @tparam T the type of interaction (true or reco).
+     * @param obj the interaction to operate on.
+     * @return the index of the leading muon (highest KE).
      */
     template<class T>
-    size_t leading_photon(const T & obj)
-    {
-        return leading_particle_index(obj, 0);
-    }
-    REGISTER_SELECTOR(leading_photon, leading_photon);
+        size_t leading_primary_electron(const T & obj)
+        {
+            return leading_primary_particle_index(obj, 1);
+        }
+    REGISTER_SELECTOR(leading_primary_electron, leading_primary_electron);
+
+    template <class T>
+        size_t leading_shower(const T & obj)
+        {
+            double leading_ke(0);
+            size_t index(0);
+            for(size_t i(0); i < obj.particles.size(); ++i)
+            {
+                const auto & p = obj.particles[i];
+                double energy(p.ke);
+                if constexpr (std::is_same_v<T, caf::SRInteractionTruthDLPProxy>)
+                    energy = pvars::ke(p);
+                if(pvars::semantic_type(p) == 0 && energy > leading_ke)
+                {
+                    leading_ke = energy;
+                    index = i;
+                }
+            }
+            return index;
+        }
+    REGISTER_SELECTOR(leading_shower, leading_shower);
+
+    /**
+     * @brief Finds the index corresponding to the leading shower.
+     * @details The leading shower is defined as the shower with the highest
+     * kinetic energy. If the interaction is a true interaction, the initial
+     * kinetic energy is used instead of the calorimetric kinetic energy.
+     * @tparam T the type of interaction (true or reco).
+     * @param obj the interaction to operate on.
+     * @return the index of the leading shower (highest KE).
+     */
+    template<class T>
+        size_t leading_primary_shower(const T & obj)
+        {
+            double leading_ke(0);
+            size_t index(0);
+            size_t counts(0);
+            for(size_t i(0); i < obj.particles.size(); ++i)
+            {
+                const auto & p = obj.particles[i];
+                double energy(p.ke);
+                if constexpr (std::is_same_v<T, caf::SRInteractionTruthDLPProxy>)
+                    energy = pvars::ke(p);
+                if(pvars::semantic_type(p) == 0 && (pcuts::is_primary(p)) && energy > leading_ke)
+                {
+                    leading_ke = energy;
+                    index = i;
+                    counts++;
+                }
+            }
+            if (counts > 0)
+                return index;
+            else
+                return leading_shower(obj);
+        }
+    REGISTER_SELECTOR(leading_primary_shower, leading_primary_shower);
 
     /**
      * @brief Finds the index corresponding to the leading electron.
