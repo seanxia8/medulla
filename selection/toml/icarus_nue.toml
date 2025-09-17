@@ -1,199 +1,199 @@
 [general]
-output = "icarus_nue_example"
+output = "/exp/icarus/app/users/jxia/medulla/root_output/icarus_nue_2025_selected_and_signal"
 primfn = "default_primary_classification"
 pidfn = "default_pid"
-
-[[category]] # 0: Contained, fiducial, single electron, N proton
-cuts = [
-    { name = "neutrino"                            },
-    { name = "fiducial_cut"                        },
-    { name = "containment_cut"                     },
-    { name = "single_electron", parameters = [50.0]},
-    { name = "!no_protons",     parameters = [50.0]},
+fsthresh = [
+    "@photon_threshold",
+    "@electron_threshold",
+    "@muon_threshold",
+    "@pion_threshold",
+    "@proton_threshold",
 ]
 
-[[category]] # 1: Contained, fiducial, single muon, CC
+[parameters]
+photon_threshold = 25.0
+electron_threshold = 50.0
+muon_threshold = 25.0 #143.425
+pion_threshold = 25.0
+proton_threshold = 50.0
+flash_low_t = 0.0
+flash_high_t = 1.6
+bnb_fom2_cut = 0.98
+
+[[category]] # 0: nue 1eNp
 cuts = [
-    {name =  "neutrino"                            },
-    {name =  "fiducial_cut"                        },
-    {name =  "containment_cut"                     },
-    {name =  "single_muon",  parameters = [143.425]},
-    {name =  "iscc"                                },
+    { name = "is_nue"                             },
+    { name = "topological_1eNp_cut"               },
 ]
 
-[[category]] # 2: Contained, fiducial, single muon, NC
+[[category]] # 1: neutrino, nue CC
 cuts = [
-    {name =  "neutrino"                            },
-    {name =  "fiducial_cut"                        },
-    {name =  "containment_cut"                     },
-    {name =  "single_muon",  parameters = [143.425]},
-    {name =  "!iscc"                               },
+    { name = "is_nue"                             },
+    { name = "!topological_1eNp_cut"              },
+    { name = "iscc"                               },
 ]
 
-[[category]] # 3: Contained, fiducial, single electron, CC
+[[category]] # 2: neutrino, nue NC
 cuts = [
-    {name =  "neutrino"                            },
-    {name =  "fiducial_cut"                        },
-    {name =  "containment_cut"                     },
-    {name =  "single_electron", parameters = [50.0]},
-    {name =  "iscc"                                },
+    { name = "is_nue"                             },
+    { name = "!topological_1eNp_cut"               },
+    { name = "!iscc"                              },
 ]
 
-[[category]] # 4: Contained, fiducial, single electron, NC
+[[category]] # 3: neutrino, numu CC
 cuts = [
-    {name =  "neutrino"                            },
-    {name =  "fiducial_cut"                        },
-    {name =  "containment_cut"                     },
-    {name =  "single_electron", parameters = [50.0]},
-    {name =  "!iscc"                               },
+    { name = "is_numu"                             },
+    { name = "iscc"                                },
 ]
 
-[[category]] # 5: Cosmic
+[[category]] # 4: neutrino, numu NC
 cuts = [
-    {name = "!neutrino"},
+    { name = "is_numu"                             },
+    { name = "!iscc"                               },
 ]
 
-[[category]] # 0: Contained, fiducial, single electron, N proton, optimized
+[[category]] # 5 : Cosmic
 cuts = [
-    { name = "neutrino"                            },
-    { name = "fiducial_cut"                        },
-    { name = "containment_cut"                     },
-    { name = "single_electron", parameters = [50.0]},
-    { name = "!no_protons",     parameters = [50.0]},
-    { name = "all_shower_cut"                      },
+    { name = "!neutrino" },
+]
+
+[[category]] # 6: Out of FV
+cuts = [
+    { name = "non_signal_1eNp" },
 ]
 
 [[sample]]
+name = "onbeam"
+path = "/pnfs/icarus/persistent/users/mueller/production/data/onbeam/input*.flat.root"
+ismc = false
+disable = false
+
+[[sample]]
 name = "offbeam"
-path = "/pnfs/icarus/persistent/users/mueller/mixed/data/offbeam/input000.flat.root"
+path = "/pnfs/icarus/persistent/users/mueller/production/data/offbeam/input*.flat.root"
+ismc = false
+disable = false
+
+[[sample]]
+name = "nominal"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/nominal/input*.flat.root"
 ismc = true
 disable = false
 
-#[[sample]]
-#name = "cvext"
-#path = "/pnfs/icarus/persistent/users/mueller/production/simulation/cvext/input*.flat.root"
-#ismc = true
-#disable = false
+[[sample]]
+name = "cvext"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/cvext/input*.flat.root"
+ismc = true
+disable = false
 
-#[[sample]]
-#name = "var00"
-#path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var00/input*.flat.root"
-#ismc = true
-#disable = false
+[[sample]]
+name = "var00"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var00/input*.flat.root"
+ismc = true
+disable = false
 
-#[[sample]]
-#name = "var01"
-#path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var01/input*.flat.root"
-#ismc = true
-#disable = false
+[[sample]]
+name = "var01"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var01/input*.flat.root"
+ismc = true
+disable = false
 
-#[[sample]]
-#name = "var02"
-#path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var02/input*.flat.root"
-#ismc = true
-#disable = false
+[[sample]]
+name = "var02"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var02/input*.flat.root"
+ismc = true
+disable = false
 
-#[[sample]]
-#name = "var03m"
-#path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var03m/input*.flat.root"
-#ismc = true
-#disable = false
+[[sample]]
+name = "var03m"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var03m/input*.flat.root"
+ismc = true
+disable = false
 
-#[[sample]]
-#name = "var03p"
-#path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var03p/input*.flat.root"
-#ismc = true
-#disable = false
+[[sample]]
+name = "var03p"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var03p/input*.flat.root"
+ismc = true
+disable = false
 
-#[[sample]]
-#name = "var04"
-#path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var04/input*.flat.root"
-#ismc = true
-#disable = false
+[[sample]]
+name = "var04"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var04/input*.flat.root"
+ismc = true
+disable = false
 
-#[[sample]]
-#name = "var05"
-#path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var05/input*.flat.root"
-#ismc = true
-#disable = false
+[[sample]]
+name = "var05"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var05/input*.flat.root"
+ismc = true
+disable = false
 
-#[[sample]]
-#name = "var06"
-#path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var06/input*.flat.root"
-#ismc = true
-#disable = false
+[[sample]]
+name = "var06"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var06/input*.flat.root"
+ismc = true
+disable = false
 
-#[[sample]]
-#name = "var07"
-#path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var07/input*.flat.root"
-#ismc = true
-#disable = false
+[[sample]]
+name = "var07"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var07/input*.flat.root"
+ismc = true
+disable = false
 
-#[[sample]]
-#name = "var09m"
-#path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var09m/input*.flat.root"
-#ismc = true
-#disable = false
+[[sample]]
+name = "var09m"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var09m/input*.flat.root"
+ismc = true
+disable = false
 
-#[[sample]]
-#name = "var09p"
-#path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var09p/input*.flat.root"
-#ismc = true
-#disable = false
+[[sample]]
+name = "var09p"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var09p/input*.flat.root"
+ismc = true
+disable = false
 
-#[[sample]]
-#name = "var10m"
-#path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var10m/input*.flat.root"
-#ismc = true
-#disable = false
+[[sample]]
+name = "var10m"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var10m/input*.flat.root"
+ismc = true
+disable = false
 
-#[[sample]]
-#name = "var10p"
-#path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var10p/input*.flat.root"
-#ismc = true
-#disable = false
+[[sample]]
+name = "var10p"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var10p/input*.flat.root"
+ismc = true
+disable = false
 
-#[[sample]]
-#name = "var11"
-#path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var11/input*.flat.root"
-#ismc = true
-#disable = false
+[[sample]]
+name = "var11"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var11/input*.flat.root"
+ismc = true
+disable = false
 
-#[[sample]]
-#name = "var12m"
-#path = "/pnfs/icarus/scratch/users/mueller/production/simulation/var12m/flat/input*.flat.root"
-#ismc = true
-#disable = false
+[[sample]]
+name = "var12m"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var12m/input*.flat.root"
+ismc = true
+disable = false
 
-#[[sample]]
-#name = "var12p"
-#path = "/pnfs/icarus/scratch/users/mueller/production/simulation/var12p/flat/input*.flat.root"
-#ismc = true
-#disable = false
+[[sample]]
+name = "var12p"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var12p/input*.flat.root"
+ismc = true
+disable = false
 
-#[[sample]]
-#name = "var13m"
-#path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var13m/input*.flat.root"
-#ismc = true
-#disable = false
+[[sample]]
+name = "var13m"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var13m/input*.flat.root"
+ismc = true
+disable = false
 
-#[[sample]]
-#name = "var13p"
-#path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var13p/input*.flat.root"
-#ismc = true
-#disable = false
+[[sample]]
+name = "var13p"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var13p/input*.flat.root"
+ismc = true
+disable = false
 
-#[[sample]]
-#name = "offbeam"
-#path = "/pnfs/icarus/persistent/users/mueller/production/data/offbeam/input*.flat.root"
-#ismc = false
-#disable = false
-
-#[[sample]]
-#name = "onbeam"
-#path = "/pnfs/icarus/persistent/users/mueller/production/data/onbeam/input*.flat.root"
-#ismc = false
-#disable = false
 
 [[tree]]
 name = "selectedNu"
@@ -201,22 +201,24 @@ sim_only = false
 add_exposure = true
 mode = "reco"
 cut = [
-    { name = "fiducial_cut",              type = "reco" },
-    { name = "containment_cut",           type = "reco" },
-    { name = "flash_cut",                 type = "reco",  parameters = [-0.5, 1.6] },
-    { name = "no_photons",                type = "reco",  parameters = [25.0] },
-    { name = "no_muons",                  type = "reco",  parameters = [143.425] },
-    { name = "no_charged_pions",          type = "reco",  parameters = [25.0] },
-    { name = "single_electron",           type = "reco",  parameters = [50.0] },
-    { name = "!no_protons",               type = "reco",  parameters = [50.0] },
+    { name = "all_1eNp_cut",              type = "reco" },
+    { name = "all_shower_cut",            type = "reco" },
+    { name = "flash_cut",                 parameters = ["@flash_low_t", "@flash_high_t"] },
+    { name = "no_photons",                parameters = ["@photon_threshold"] },
+    { name = "no_muons",                  parameters = ["@muon_threshold"] },
+    { name = "no_charged_pions",          parameters = ["@pion_threshold"] },
+    { name = "!no_protons",               parameters = ["@proton_threshold"] },
+    { name = "single_electron",           parameters = ["@electron_threshold"] },
     { name = "trigger_emulation_cut",     type = "event", decrements_exposure = false },
     { name = "data_quality_cut",          type = "event", decrements_exposure = true },
     { name = "beam_quality_cut",          type = "spill", decrements_exposure = false }, # Should decrement exposure, but CAF files are bugged
-    { name = "bnb_fom2_cut",              type = "event", decrements_exposure = false, parameters = [0.98,]}, # Should decrement exposure, but CAF files are bugged
-]
+    { name = "bnb_fom2_cut",              type = "event", decrements_exposure = false, parameters = ["@bnb_fom2_cut"]}, # Should decrement exposure, but CAF files are bugged
+
 branch = [
     # Interaction-level truth/reco branches
     { name = "neutrino_id",             type = "true"    },
+    { name = "containment",             type = "both"    },
+    { name = "fiducial",                type = "both"    },
     { name = "baseline",                type = "mctruth" },
     { name = "cc",                      type = "mctruth" },
     { name = "pdg",                     type = "mctruth" },
@@ -226,14 +228,14 @@ branch = [
     { name = "neutrino_energy",         type = "mctruth" },
     { name = "visible_energy",          type = "both"    },
     { name = "visible_energy_calosub",  type = "both"    },
-    { name = "photon_multiplicity",     type = "both",    parameters = [25.0,]},
-    { name = "electron_multiplicity",   type = "both",    parameters = [50.0,]},
-    { name = "muon_multiplicity",       type = "both",    parameters = [143.425,]},
-    { name = "pion_multiplicity",       type = "both",    parameters = [25.0,]},
-    { name = "proton_multiplicity",     type = "both",    parameters = [50.0,]},
+    { name = "photon_multiplicity",     type = "both",    parameters = ["@photon_threshold"]},
+    { name = "electron_multiplicity",   type = "both",    parameters = ["@electron_threshold"]},
+    { name = "muon_multiplicity",       type = "both",    parameters = ["@muon_threshold"]},
+    { name = "pion_multiplicity",       type = "both",    parameters = ["@pion_threshold"]},
+    { name = "proton_multiplicity",     type = "both",    parameters = ["@proton_threshold"]},
 
     # Kinematic imbalance & angles
-    { name = "opening_angle", type = "both" },
+    { name = "opening_angle", type = "both" , parameters = [1]}, # -1 for muon, 1 for electron
     { name = "dpT",           type = "both" },
     { name = "dpT_lp",        type = "both" },
     { name = "dphiT",         type = "both" },
@@ -250,26 +252,19 @@ branch = [
     { name = "flash_time",       type = "reco" },
     { name = "flash_total_pe",   type = "reco" },
     { name = "flash_hypothesis", type = "reco" },
-    { name = "containment",      type = "reco" },
-    { name = "fiducial",         type = "reco" },
 
     # Leading electron interaction-level
-    { name = "end_x",             type = "both_particle", selector = "leading_electron"   },
-    { name = "end_y",             type = "both_particle", selector = "leading_electron"   },
-    { name = "end_z",             type = "both_particle", selector = "leading_electron"   },
+    #{ name = "end_x",             type = "both_particle", selector = "leading_electron"   },
+    #{ name = "end_y",             type = "both_particle", selector = "leading_electron"   },
+    #{ name = "end_z",             type = "both_particle", selector = "leading_electron"   },
     { name = "ke",                type = "both_particle", selector = "leading_electron"   },
-    { name = "length",            type = "both_particle", selector = "leading_electron"   },
+    #{ name = "length",            type = "both_particle", selector = "leading_electron"   },
     { name = "dpT",               type = "both_particle", selector = "leading_electron"   },
     { name = "polar_angle",       type = "both_particle", selector = "leading_electron"   },
     { name = "azimuthal_angle",   type = "both_particle", selector = "leading_electron"   },
     { name = "primary_softmax",   type = "reco_particle", selector = "leading_electron"   },
     { name = "secondary_softmax", type = "reco_particle", selector = "leading_electron"   },
     { name = "electron_softmax",  type = "reco_particle", selector = "leading_electron"   },
-    { name = "start_dedx",        type = "reco_particle", selector = "leading_electron"   },
-    { name = "vertex_distance",   type = "reco_particle", selector = "leading_electron"   },
-    { name = "directional_spread",type = "reco_particle", selector = "leading_electron"   },
-    { name = "axial_spread",      type = "reco_particle", selector = "leading_electron"   },
-    { name = "start_straightness",type = "reco_particle", selector = "leading_electron"   },
 
     # Leading PROTON interaction-level
     { name = "end_x",             type = "both_particle", selector = "leading_proton" },
@@ -286,5 +281,107 @@ branch = [
     { name = "pion_softmax",      type = "reco_particle", selector = "leading_proton" },
     { name = "proton_softmax",    type = "reco_particle", selector = "leading_proton" },
     { name = "mip_softmax",       type = "reco_particle", selector = "leading_proton" },
-    { name = "hadron_softmax",    type = "reco_particle", selector = "leading_proton" }
+    { name = "hadron_softmax",    type = "reco_particle", selector = "leading_proton" },
+
+    # Leading electron interaction-level
+    { name = "leading_shower_start_dedx",        type = "reco_particle", selector = "leading_primary_shower"   },
+    { name = "leading_shower_vertex_distance",   type = "reco_particle", selector = "leading_primary_shower"   },
+    { name = "leading_shower_directional_spread",type = "reco_particle", selector = "leading_primary_shower"   },
+    { name = "leading_shower_axial_spread",      type = "reco_particle", selector = "leading_primary_shower"   },
+    { name = "leading_shower_start_straightness",type = "reco_particle", selector = "leading_primary_shower"   },
+]
+
+[[tree]]
+name = "signal_1eNp"
+sim_only = true
+add_exposure = true
+mode = "true"
+cut = [
+    { name = "signal_1eNp",               type = "true" },
+    { name = "flash_cut",                 parameters = ["@flash_low_t", "@flash_high_t"] },
+    { name = "no_photons",                parameters = ["@photon_threshold"] },
+    { name = "no_muons",                  parameters = ["@muon_threshold"] },
+    { name = "no_charged_pions",          parameters = ["@pion_threshold"] },
+    { name = "!no_protons",               parameters = ["@proton_threshold"] },
+    { name = "single_electron",           parameters = ["@electron_threshold"] },
+    { name = "trigger_emulation_cut",     type = "event", decrements_exposure = false },
+    #{ name = "data_quality_cut",          type = "event", decrements_exposure = true },
+    #{ name = "beam_quality_cut",          type = "spill", decrements_exposure = false }, # Should decrement exposure, but CAF files are bugged
+    #{ name = "bnb_fom2_cut",              type = "event", decrements_exposure = false, parameters = [0.98,]}, # Should decrement exposure, but CAF files are bugged
+]
+branch = [
+    # Interaction-level truth/reco branches
+    { name = "neutrino_id",             type = "true"    },
+    { name = "containment",             type = "both"    },
+    { name = "fiducial",                type = "true"    },
+    { name = "baseline",                type = "mctruth" },
+    { name = "cc",                      type = "mctruth" },
+    { name = "pdg",                     type = "mctruth" },
+    { name = "interaction_mode",        type = "mctruth" },
+    { name = "interaction_type",        type = "mctruth" },
+    { name = "category",                type = "true"    },
+    { name = "neutrino_energy",         type = "mctruth" },
+    { name = "visible_energy",          type = "both"    },
+    { name = "visible_energy_calosub",  type = "both"    },
+    { name = "photon_multiplicity",     type = "both",    parameters = ["@photon_threshold"]},
+    { name = "electron_multiplicity",   type = "both",    parameters = ["@electron_threshold"]},
+    { name = "muon_multiplicity",       type = "both",    parameters = ["@muon_threshold"]},
+    { name = "pion_multiplicity",       type = "both",    parameters = ["@pion_threshold"]},
+    { name = "proton_multiplicity",     type = "both",    parameters = ["@proton_threshold"]},
+
+    # Kinematic imbalance & angles
+    { name = "opening_angle", type = "both" , parameters = [1]}, # -1 for muon, 1 for electron
+    { name = "dpT",           type = "both" },
+    { name = "dpT_lp",        type = "both" },
+    { name = "dphiT",         type = "both" },
+    { name = "dalphaT",       type = "both" },
+    { name = "dpL",           type = "both" },
+    { name = "dpL_lp",        type = "both" },
+    { name = "pn",            type = "both" },
+    { name = "pn_lp",         type = "both" },
+
+    # Vertex & flash
+    { name = "vertex_x",         type = "both" },
+    { name = "vertex_y",         type = "both" },
+    { name = "vertex_z",         type = "both" },
+    { name = "flash_time",       type = "reco" },
+    { name = "flash_total_pe",   type = "reco" },
+    { name = "flash_hypothesis", type = "reco" },
+
+    # Leading electron interaction-level
+    #{ name = "end_x",             type = "both_particle", selector = "leading_electron"   },
+    #{ name = "end_y",             type = "both_particle", selector = "leading_electron"   },
+    #{ name = "end_z",             type = "both_particle", selector = "leading_electron"   },
+    { name = "ke",                type = "both_particle", selector = "leading_electron"   },
+    #{ name = "length",            type = "both_particle", selector = "leading_electron"   },
+    { name = "dpT",               type = "both_particle", selector = "leading_electron"   },
+    { name = "polar_angle",       type = "both_particle", selector = "leading_electron"   },
+    { name = "azimuthal_angle",   type = "both_particle", selector = "leading_electron"   },
+    { name = "primary_softmax",   type = "reco_particle", selector = "leading_electron"   },
+    { name = "secondary_softmax", type = "reco_particle", selector = "leading_electron"   },
+    { name = "electron_softmax",  type = "reco_particle", selector = "leading_electron"   },
+
+    # Leading PROTON interaction-level
+    { name = "end_x",             type = "both_particle", selector = "leading_proton" },
+    { name = "end_y",             type = "both_particle", selector = "leading_proton" },
+    { name = "end_z",             type = "both_particle", selector = "leading_proton" },
+    { name = "ke",                type = "both_particle", selector = "leading_proton" },
+    { name = "length",            type = "both_particle", selector = "leading_proton" },
+    { name = "dpT",               type = "both_particle", selector = "leading_proton" },
+    { name = "polar_angle",       type = "both_particle", selector = "leading_proton" },
+    { name = "azimuthal_angle",   type = "both_particle", selector = "leading_proton" },
+    { name = "primary_softmax",   type = "reco_particle", selector = "leading_proton" },
+    { name = "secondary_softmax", type = "reco_particle", selector = "leading_proton" },
+    { name = "muon_softmax",      type = "reco_particle", selector = "leading_proton" },
+    { name = "pion_softmax",      type = "reco_particle", selector = "leading_proton" },
+    { name = "proton_softmax",    type = "reco_particle", selector = "leading_proton" },
+    { name = "mip_softmax",       type = "reco_particle", selector = "leading_proton" },
+    { name = "hadron_softmax",    type = "reco_particle", selector = "leading_proton" },
+
+    # Leading electron interaction-level
+    { name = "leading_shower_start_dedx",        type = "reco_particle", selector = "leading_primary_shower"   },
+    { name = "leading_shower_vertex_distance",   type = "reco_particle", selector = "leading_primary_shower"   },
+    { name = "leading_shower_directional_spread",type = "reco_particle", selector = "leading_primary_shower"   },
+    { name = "leading_shower_axial_spread",      type = "reco_particle", selector = "leading_primary_shower"   },
+    { name = "leading_shower_start_straightness",type = "reco_particle", selector = "leading_primary_shower"   },
 ]
