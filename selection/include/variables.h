@@ -540,10 +540,13 @@ namespace vars
      * proton.
      */
     template<class T>
-    double opening_angle(const T & obj)
+    double opening_angle(const T & obj, std::vector<double> params={-1,})
     {
-        size_t mi = selectors::leading_muon(obj);
         size_t pi = selectors::leading_proton(obj);
+        size_t mi = selectors::leading_muon(obj);
+        if (params[0] > 0){
+            mi = selectors::leading_primary_shower(obj);
+        }
         if(mi == kNoMatch || pi == kNoMatch)
             return kNoMatchValue; // No leading muon or proton found.
         else

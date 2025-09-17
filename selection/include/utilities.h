@@ -165,5 +165,6 @@ namespace utilities
         }
         return first_flash_index;
     }
+
 }
 #endif // UTILITIES_H
