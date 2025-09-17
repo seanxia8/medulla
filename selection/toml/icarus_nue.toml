@@ -194,11 +194,10 @@ path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var13p/input
 ismc = true
 disable = false
 
-
 [[tree]]
 name = "selectedNu"
 sim_only = false
-add_exposure = true
+add_exposure = false
 mode = "reco"
 cut = [
     { name = "all_1eNp_cut",              type = "reco" },
@@ -213,6 +212,7 @@ cut = [
     { name = "data_quality_cut",          type = "event", decrements_exposure = true },
     { name = "beam_quality_cut",          type = "spill", decrements_exposure = false }, # Should decrement exposure, but CAF files are bugged
     { name = "bnb_fom2_cut",              type = "event", decrements_exposure = false, parameters = ["@bnb_fom2_cut"]}, # Should decrement exposure, but CAF files are bugged
+    ]
 
 branch = [
     # Interaction-level truth/reco branches
