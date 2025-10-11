@@ -20,7 +20,8 @@ cuts = [
 
 [[sample]]
 name = "simulation"
-path = "/pnfs/sbnd/persistent/users/mueller/v10_04_07/input*.flat.root"
+#path = "/pnfs/sbnd/persistent/users/mueller/v10_04_07/input*.flat.root"
+path = "/exp/icarus/app/users/jxia/data_playground/test_muon/input*.flat.root"
 ismc = true
 
 [[tree]]
