@@ -1,0 +1,31 @@
+[input]
+path = '/exp/icarus/app/users/jxia/medulla/root_output/icarus_nue_20251007_final_13detknob.root'
+weights = '/pnfs/icarus/persistent/users/mueller/production/simulation/cvext/input*.flat.root'
+#weights = '/pnfs/icarus/persistent/users/mueller/production/simulation/nominal/input*.flat.root'
+use_additional_hash = true
+
+[output]
+path = '/exp/icarus/app/users/jxia/medulla/root_output/icarus_nue_20251009_sys_weight_test.root'
+histogram_destination = 'variations/'
+
+[[sysvar]]
+name = 'reco_visible_energy'
+bins = [15, 0, 4]
+
+[[tree]]
+origin = 'events/cvext/selectedNu'
+destination = 'events/full/'
+name = 'selected'
+action = 'add_weights'
+table_types = ['multisim', 'multisigma', 'variation']
+
+[[tree]]
+origin = 'events/cvext/selectedNu_exposure'
+destination = 'events/full/'
+name = 'selected_exposure'
+action = 'copy'
+
+[[sys]]
+name = "piplus_Flux"
+type = "multisim"
+index = 127

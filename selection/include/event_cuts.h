@@ -193,6 +193,63 @@ namespace ecut
         }
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Event, bnb_fom2_cut, bnb_fom2_cut);
+
+    template<typename T>
+    bool event_selection_by_run(const T & sr, std::vector<double> params={})
+    {
+        if(params.empty())
+        {
+            throw std::invalid_argument("event_selection_by_run requires at least one parameter for the threshold (recommended 0.98).");
+        }
+        for(const auto & p : params)
+        {
+            if(sr.hdr.run == p)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    REGISTER_CUT_SCOPE(RegistrationScope::Event, event_selection_by_run, event_selection_by_run);
+
+    template<typename T>
+    bool event_selection_by_subrun(const T & sr, std::vector<double> params={})
+    {
+        if(params.empty())
+        {
+            throw std::invalid_argument("event_selection_by_subrun requires at least one parameter for the threshold (recommended 0.98).");
+        }
+        for(const auto & p : params)
+        {
+            if(sr.hdr.subrun == p)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    REGISTER_CUT_SCOPE(RegistrationScope::Event, event_selection_by_subrun, event_selection_by_subrun);
+
+    template<typename T>
+    bool event_selection_by_evt(const T & sr, std::vector<double> params={})
+    {
+        if(params.empty())
+        {
+            throw std::invalid_argument("event_selection_by_evt requires at least one parameter for the threshold (recommended 0.98).");
+        }
+        for(const auto & p : params)
+        {
+            if(sr.hdr.evt == p)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    REGISTER_CUT_SCOPE(RegistrationScope::Event, event_selection_by_evt, event_selection_by_evt);
+
+
 }
 
 #endif // EVENT_CUTS_H

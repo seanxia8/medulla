@@ -111,7 +111,7 @@ namespace selectors
     REGISTER_SELECTOR(leading_primary_electron, leading_primary_electron);
 
     template <class T>
-        size_t leading_shower(const T & obj)
+        size_t leading_shower_index(const T & obj)
         {
             double leading_ke(0);
             size_t index(0);
@@ -129,7 +129,7 @@ namespace selectors
             }
             return index;
         }
-    REGISTER_SELECTOR(leading_shower, leading_shower);
+    REGISTER_SELECTOR(leading_shower_index, leading_shower_index);
 
     /**
      * @brief Finds the index corresponding to the leading shower.
@@ -162,7 +162,7 @@ namespace selectors
             if (counts > 0)
                 return index;
             else
-                return leading_shower(obj);
+                return leading_shower_index(obj);
         }
     REGISTER_SELECTOR(leading_primary_shower, leading_primary_shower);
 

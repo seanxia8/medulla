@@ -48,38 +48,38 @@ namespace vars::nue2025
         REGISTER_VAR_SCOPE(RegistrationScope::BothParticle, leading_shower_ke, leading_shower_ke);
 
     template<class T>
-        double leading_shower_start_dedx(const T & p)
+        double start_dedx(const T & p)
         {
             return p.start_dedx;
         }
-        REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, leading_shower_start_dedx, leading_shower_start_dedx);
+        REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, start_dedx, start_dedx);
 
     template<class T>
-        double leading_shower_vertex_distance(const T & p)
+        double vertex_distance(const T & p)
         {
             return p.vertex_distance;
         }
-        REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, leading_shower_vertex_distance, leading_shower_vertex_distance);
+        REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, vertex_distance, vertex_distance);
 
     template<class T>
-        double leading_shower_directional_spread(const T & p)
+        double directional_spread(const T & p)
         {
             return p.directional_spread;
         }
-        REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, leading_shower_directional_spread, leading_shower_directional_spread);
+        REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, directional_spread, directional_spread);
 
     template<class T>
-        double leading_shower_axial_spread(const T & p)
+        double axial_spread(const T & p)
         {
             return p.axial_spread;
         }
-        REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, leading_shower_axial_spread, leading_shower_axial_spread);
+        REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, axial_spread, axial_spread);
 
     template<class T>
-        double leading_shower_start_straightness(const T & p)
+        double start_straightness(const T & p)
         {
             return p.start_straightness;
         }
-        REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, leading_shower_start_straightness, leading_shower_start_straightness);
+        REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, start_straightness, start_straightness);
  }
 #endif // VARS_NUE_H

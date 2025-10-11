@@ -107,7 +107,7 @@ namespace pcuts
 	      }
 	    else
 	      {
-		  if((pvars::pid(p) == 1 && energy > 50) || (pvars::pid(p) == 4 && energy > 50) || (energy > 25))
+		  if((pvars::pid(p) == 1 && energy > 50) || (pvars::pid(p) != 1 && pvars::pid(p) < 4 && energy > 25) || (pvars::pid(p) == 4 && energy > 50))
 		    passes = true;		
 	      }
         }
