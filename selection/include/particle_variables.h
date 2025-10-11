@@ -144,19 +144,19 @@ namespace pvars
         {
             switch(int(pvars::pid(p)))
             {
-                case 0:
+                case pvars::kPhoton:
                     mass = 0;
                     break;
-                case 1:
+                case pvars::kElectron:
                     mass = ELECTRON_MASS;
                     break;
-                case 2:
+                case pvars::kMuon:
                     mass = MUON_MASS;
                     break;
-                case 3:
+                case pvars::kPion:
                     mass = PION_MASS;
                     break;
-                case 4:
+                case pvars::kProton:
                     mass = PROTON_MASS;
                     break;
                 default:
@@ -585,6 +585,22 @@ namespace pvars
     REGISTER_VAR_SCOPE(RegistrationScope::BothParticle, end_dir_z, end_dir_z);
 
     /**
+     * @brief Variable for the offset of the particle from the cathode.
+     * @details The cathode offset represents the offset due to out-of-timeness
+     * of the particle. A negative offset indicates that the particle's t0 is
+     * before t=0.
+     * @tparam T the type of particle (true or reco).
+     * @param p the particle to apply the variable on.
+     * @return the offset of the particle from the cathode.
+     */
+    template<class T>
+    double cathode_offset(const T & p)
+    {
+        return (std::isinf(p.cathode_offset) ? PLACEHOLDERVALUE : (double)p.cathode_offset);
+    }
+    REGISTER_VAR_SCOPE(RegistrationScope::BothParticle, cathode_offset, cathode_offset);
+
+    /**
      * @brief Variable for the magnitude of the particle momentum.
      * @details The momentum is calculated upstream in the SPINE reconstruction
      * using the kinetic energy and mass of the particle.
@@ -699,6 +715,88 @@ namespace pvars
     REGISTER_VAR_SCOPE(RegistrationScope::BothParticle, azimuthal_angle, azimuthal_angle);
 
     /**
+     * @brief Variable for the start dE/dx of the particle.
+     * @details The start dE/dx is calculated upstream in the SPINE
+     * reconstruction using the segment of the track near the start point.
+     * @tparam T the type of particle (true or reco).
+     * @param p the particle to apply the variable on.
+     * @return the start dE/dx of the particle.
+     */
+    template<class T>
+    double start_dedx(const T & p)
+    {
+        return p.start_dedx;
+    }
+    REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, start_dedx, start_dedx);
+
+    /**
+     * @brief Variable for the "straightness" of the particle near the start.
+     * @details The start straightness is calculated upstream in the SPINE as 
+     * the principal explained variance ratio (PCA) of the 3D coordinates for
+     * points within distance r from the start point.
+     * @tparam T the type of particle (true or reco).
+     * @param p the particle to apply the variable on.
+     * @return the start straightness of the particle.
+     */
+    template<class T>
+    double start_straightness(const T & p)
+    {
+        return std::isinf(p.start_straightness) ? PLACEHOLDERVALUE : (double)p.start_straightness;
+    }
+    REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, start_straightness, start_straightness);
+
+    /**
+     * @brief Variable for the "axial spread" of the particle.
+     * @details The axial spread is calculated upstream in the SPINE as the 
+     * measure of correlation between the transverse coordinate of each point
+     * and the longitudinal coordinate along the particle axis.
+     * @tparam T the type of particle (true or reco).
+     * @param p the particle to apply the variable on.
+     * @return the axial spread of the particle.
+     */
+    template<class T>
+    double axial_spread(const T & p)
+    {
+        return std::isinf(p.axial_spread) ? PLACEHOLDERVALUE : (double)p.axial_spread;
+    }
+    REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, axial_spread, axial_spread);
+
+    /**
+     * @brief Variable for the "directional spread" of the particle.
+     * @details The directional spread is calculated upstream in the SPINE as a
+     * measure of the spread of unit vectors pointing from the start to each 
+     * point in the particle. 
+     * @tparam T the type of particle (true or reco).
+     * @param p the particle to apply the variable on.
+     * @return the directional spread of the particle.
+     */
+    template<class T>
+    double directional_spread(const T & p)
+    {
+        return std::isinf(p.directional_spread) ? PLACEHOLDERVALUE : (double)p.directional_spread;
+    }
+    REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, directional_spread, directional_spread);
+
+    /**
+     * @brief Variable for the distance of the particle start point from the
+     * parent interaction vertex.
+     * @details The vertex distance is calculated upstream in the SPINE as the
+     * Euclidean distance between the start point of the particle and the 
+     * interaction vertex. It is intended to be a handle on the shower
+     * conversion distance and can be used to discriminate between electron
+     * and photon induced showers.
+     * @tparam T the type of particle (true or reco).
+     * @param p the particle to apply the variable on.
+     * @return the vertex distance of the particle.
+     */
+    template<class T>
+    double vertex_distance(const T & p)
+    {
+        return std::isinf(p.vertex_distance) ? PLACEHOLDERVALUE : (double)p.vertex_distance;
+    }
+    REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, vertex_distance, vertex_distance);
+
+    /**
      * @brief Variable for the photon softmax score of the particle.
      * @details The photon softmax score represents the confidence that the
      * network has in the particle being a photon. The score is between 0 and 1,
@@ -710,7 +808,7 @@ namespace pvars
     template<class T>
     double photon_softmax(const caf::SRParticleDLPProxy & p)
     {
-        return p.pid_scores[0];
+        return p.pid_scores[pvars::kPhoton];
     }
     REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, photon_softmax, photon_softmax);
 
@@ -726,7 +824,7 @@ namespace pvars
     template<class T>
     double electron_softmax(const caf::SRParticleDLPProxy & p)
     {
-        return p.pid_scores[1];
+        return p.pid_scores[pvars::kElectron];
     }
     REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, electron_softmax, electron_softmax);
     
@@ -742,7 +840,7 @@ namespace pvars
     template<class T>
     double muon_softmax(const caf::SRParticleDLPProxy & p)
     {
-        return p.pid_scores[2];
+        return p.pid_scores[pvars::kMuon];
     }
     REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, muon_softmax, muon_softmax);
 
@@ -758,7 +856,7 @@ namespace pvars
     template<class T>
     double pion_softmax(const caf::SRParticleDLPProxy & p)
     {
-        return p.pid_scores[3];
+        return p.pid_scores[pvars::kPion];
     }
     REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, pion_softmax, pion_softmax);
 
@@ -774,7 +872,7 @@ namespace pvars
     template<class T>
     double proton_softmax(const caf::SRParticleDLPProxy & p)
     {
-        return p.pid_scores[4];
+        return p.pid_scores[pvars::kProton];
     }
     REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, proton_softmax, proton_softmax);
 
@@ -790,7 +888,7 @@ namespace pvars
     template<class T>
     double mip_softmax(const caf::SRParticleDLPProxy & p)
     {
-        return p.pid_scores[2] + p.pid_scores[3];
+        return p.pid_scores[pvars::kMuon] + p.pid_scores[pvars::kPion];
     }
     REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, mip_softmax, mip_softmax);
 
@@ -806,7 +904,7 @@ namespace pvars
     template<class T>
     double hadron_softmax(const caf::SRParticleDLPProxy & p)
     {
-        return p.pid_scores[3] + p.pid_scores[4];
+        return p.pid_scores[pvars::kPion] + p.pid_scores[pvars::kProton];
     }
     REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, hadron_softmax, hadron_softmax);
 

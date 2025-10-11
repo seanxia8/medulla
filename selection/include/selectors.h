@@ -260,6 +260,11 @@ namespace selectors
                 return leading_shower_index(obj);
         }
     REGISTER_SELECTOR(leading_primary_shower, leading_primary_shower);
+    size_t leading_photon(const T & obj)
+    {
+        return leading_particle_index(obj, pvars::kPhoton);
+    }
+    REGISTER_SELECTOR(leading_photon, leading_photon);
 
     /**
      * @brief Finds the index corresponding to the leading electron.
@@ -273,7 +278,7 @@ namespace selectors
     template<class T>
     size_t leading_electron(const T & obj)
     {
-        return leading_particle_index(obj, 1);
+        return leading_particle_index(obj, pvars::kElectron);
     }
     REGISTER_SELECTOR(leading_electron, leading_electron);
 
@@ -288,7 +293,7 @@ namespace selectors
     template<class T>
     size_t leading_muon(const T & obj)
     {
-        return leading_particle_index(obj, 2);
+        return leading_particle_index(obj, pvars::kMuon);
     }
     REGISTER_SELECTOR(leading_muon, leading_muon);
 
@@ -303,7 +308,7 @@ namespace selectors
     template<class T>
     size_t leading_pion(const T & obj)
     {
-        return leading_particle_index(obj, 3);
+        return leading_particle_index(obj, pvars::kPion);
     }
     REGISTER_SELECTOR(leading_pion, leading_pion);
     
@@ -318,7 +323,7 @@ namespace selectors
     template<class T>
     size_t leading_proton(const T & obj)
     {
-        return leading_particle_index(obj, 4);
+        return leading_particle_index(obj, pvars::kProton);
     }
     REGISTER_SELECTOR(leading_proton, leading_proton);
 }

@@ -12,7 +12,7 @@
 #define EVENT_VARIABLES_H
 #include "sbnanaobj/StandardRecord/Proxy/SRProxy.h"
 #include "sbnanaobj/StandardRecord/SRBNBInfo.h"
-#include "sbnana/SBNAna/Vars/BNBVars.h"
+//#include "sbnana/SBNAna/Vars/BNBVars.h"
 
 #include "framework.h"
 #include "utilities.h"
@@ -294,6 +294,20 @@ namespace evar
     REGISTER_VAR_SCOPE(RegistrationScope::Event, global_trigger_det_time, global_trigger_det_time);
 
     /**
+     * @brief Variable for the number of gates elapsed since the last trigger
+     * according to the SRTrigger product.
+     * @details This variable retrieves the number of gates elapsed since the 
+     * last recorded trigger of the same type. For ICARUS, this will not
+     * correctly account for minbias triggers.
+     * @tparam T the top-level record.
+     * @param sr the StandardRecord to apply the variable on.
+     * @return the number of gates elapsed since the last trigger.
+     */
+    template<typename T>
+    double gate_delta(const T & sr) { return sr.hdr.triggerinfo.gate_delta; }
+    REGISTER_VAR_SCOPE(RegistrationScope::Event, gate_delta, gate_delta);
+
+    /**
      * @brief Variable for time of the flash closest to the trigger time.
      * @details This variable is intended to provide the time of the flash
      * closest to the trigger time of the event. It is useful for producing a
@@ -368,12 +382,12 @@ namespace evar
      * @param sr the StandardRecord to apply the variable on.
      * @return the FoM2 value for the event.
      */
-    template<typename T>
+    /*template<typename T>
     double bnb_fom2(const T & sr)
     {
         return ana::kSpillFoM2(&sr);
     }
-    REGISTER_VAR_SCOPE(RegistrationScope::Event, bnb_fom2, bnb_fom2);
+    REGISTER_VAR_SCOPE(RegistrationScope::Event, bnb_fom2, bnb_fom2);*/
 
     /**
      * @brief Variable for the unfolded event POT (Protons on Target).
