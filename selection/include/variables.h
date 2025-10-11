@@ -737,7 +737,7 @@ namespace vars
         size_t mi = selectors::leading_muon(obj);
         if(mi == kNoMatch) return PLACEHOLDERVALUE;
         auto & m(obj.particles[mi]);
-        
+
         // Calculate the distance from the leading muon start point to the
         // interaction vertex.
         utilities::three_vector vtx = {obj.vertex[0], obj.vertex[1], obj.vertex[2]};
@@ -745,5 +745,22 @@ namespace vars
         return utilities::magnitude(utilities::subtract(muon_start, vtx));
     }
     REGISTER_VAR_SCOPE(RegistrationScope::Both, leading_muon_vertex_gap, leading_muon_vertex_gap);
+
+    template<class T>
+    double leading_shower_vertex_gap(const T & obj)
+    {
+        // Find the leading muon in the interaction.
+        size_t mi = selectors::leading_primary_shower(obj);
+        if(mi == kNoMatch) return PLACEHOLDERVALUE;
+        auto & m(obj.particles[mi]);
+
+        // Calculate the distance from the leading shower start point to the
+        // interaction vertex.
+        utilities::three_vector vtx = {obj.vertex[0], obj.vertex[1], obj.vertex[2]};
+        utilities::three_vector shower_start = {pvars::start_x(m), pvars::start_y(m), pvars::start_z(m)};
+        return utilities::magnitude(utilities::subtract(muon_start, vtx));
+    }
+    REGISTER_VAR_SCOPE(RegistrationScope::Both, leading_shower_vertex_gap, leading_shower_vertex_gap);
+
 }
 #endif // VARIABLES_H
