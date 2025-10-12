@@ -260,6 +260,8 @@ namespace selectors
                 return leading_shower_index(obj);
         }
     REGISTER_SELECTOR(leading_primary_shower, leading_primary_shower);
+
+    template<class T>
     size_t leading_photon(const T & obj)
     {
         return leading_particle_index(obj, pvars::kPhoton);

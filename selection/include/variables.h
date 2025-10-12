@@ -758,7 +758,7 @@ namespace vars
         // interaction vertex.
         utilities::three_vector vtx = {obj.vertex[0], obj.vertex[1], obj.vertex[2]};
         utilities::three_vector shower_start = {pvars::start_x(m), pvars::start_y(m), pvars::start_z(m)};
-        return utilities::magnitude(utilities::subtract(muon_start, vtx));
+        return utilities::magnitude(utilities::subtract(shower_start, vtx));
     }
     REGISTER_VAR_SCOPE(RegistrationScope::Both, leading_shower_vertex_gap, leading_shower_vertex_gap);
 
