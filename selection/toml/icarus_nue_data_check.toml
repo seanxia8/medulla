@@ -1,5 +1,5 @@
 [general]
-output = "/exp/icarus/app/users/jxia/medulla/root_output/icarus_nue_20251007_onbeam_nospillcut"
+output = "/exp/icarus/app/users/jxia/medulla/root_output/icarus_nue_20251011_onbeam_nospillcut"
 primfn = "default_primary_classification"
 pidfn = "default_pid"
 fsthresh = [
