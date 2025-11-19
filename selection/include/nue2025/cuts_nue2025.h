@@ -141,7 +141,7 @@ namespace cuts::nue2025
     bool shower_dedx_cut(const T & obj)
     {
         size_t ishower = selectors::leading_primary_shower(obj);
-        double dedx = vars::nue2025::start_dedx(obj.particles[ishower]);
+        double dedx = pvars::start_dedx(obj.particles[ishower]);
         if (dedx > SHOWER_DEDX_CUT_VAL) { return false; }
         else { return true; }
     }
@@ -151,7 +151,7 @@ namespace cuts::nue2025
     bool shower_vertex_distance_cut(const T & obj)
     {
         size_t ishower = selectors::leading_primary_shower(obj);
-        double distance = vars::nue2025::vertex_distance(obj.particles[ishower]);
+        double distance = pvars::vertex_distance(obj.particles[ishower]);
         if (distance > SHOWER_VERTEX_DISTANCE_CUT_VAL) { return false; }
         else { return true; }
     }
@@ -161,7 +161,7 @@ namespace cuts::nue2025
     bool shower_directional_spread_cut(const T & obj)
     {
         size_t ishower = selectors::leading_primary_shower(obj);
-        double spread = vars::nue2025::directional_spread(obj.particles[ishower]);
+        double spread = pvars::directional_spread(obj.particles[ishower]);
         if (spread > SHOWER_DIRECTIONAL_SPREAD_CUT_VAL) { return false; }
         else { return true; }
     }
@@ -171,7 +171,7 @@ namespace cuts::nue2025
     bool shower_axial_spread_cut(const T & obj)
     {
         size_t ishower = selectors::leading_primary_shower(obj);
-        double spread = vars::nue2025::axial_spread(obj.particles[ishower]);
+        double spread = pvars::axial_spread(obj.particles[ishower]);
         if (spread < SHOWER_AXIAL_SPREAD_CUT_VAL) { return false; }
         else { return true; }
     }
@@ -181,7 +181,7 @@ namespace cuts::nue2025
     bool shower_start_straightness_cut(const T & obj)
     {
         size_t ishower = selectors::leading_primary_shower(obj);
-        double straightness = vars::nue2025::start_straightness(obj.particles[ishower]);
+        double straightness = pvars::start_straightness(obj.particles[ishower]);
         if (straightness < SHOWER_START_STRAIGHTNESS_CUT_VAL) { return false; }
         else { return true; }
     }

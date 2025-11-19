@@ -1,6 +1,6 @@
 [general]
-output = "/exp/icarus/app/users/jxia/medulla/root_output_final_mc/icarus_nue_2025_final_selected_and_signal"
-#output = "/exp/icarus/app/users/jxia/medulla/root_output_final_data/icarus_nue_2025_final_selected_and_signal"
+#output = "/exp/icarus/app/users/jxia/medulla/root_output_final_mc/icarus_nue_2025_final_selected_and_signal"
+output = "/exp/icarus/app/users/jxia/medulla/root_output_final_data/icarus_nue_2025_final_selected_and_signal"
 #output = "/exp/icarus/app/users/jxia/medulla/root_output_final_vars/icarus_nue_2025_final_selected_and_signal"
 
 primfn = "default_primary_classification"
@@ -71,25 +71,25 @@ cuts = [
 name = "onbeam"
 path = "/pnfs/icarus/persistent/users/mueller/production/data/onbeam/input*.flat.root"
 ismc = false
-disable = true
+disable = false
 
 [[sample]]
 name = "offbeam"
 path = "/pnfs/icarus/persistent/users/mueller/production/data/offbeam/input*.flat.root"
 ismc = false
-disable = true
+disable = false
 
 [[sample]]
 name = "nominal"
 path = "/pnfs/icarus/persistent/users/mueller/production/simulation/nominal/input*.flat.root"
 ismc = true
-disable = false
+disable = true
 
 [[sample]]
 name = "cvext"
 path = "/pnfs/icarus/persistent/users/mueller/production/simulation/cvext/input*.flat.root"
 ismc = true
-disable = false
+disable = true
 
 [[sample]]
 name = "var00"
@@ -216,11 +216,12 @@ cut = [
     { name = "trigger_emulation_cut",     type = "event", decrements_exposure = true },
     { name = "data_quality_cut",          type = "event", decrements_exposure = true },
     { name = "beam_quality_cut",          type = "spill", decrements_exposure = true }, # Should decrement exposure, but CAF files are bugged
-    { name = "bnb_fom2_cut",              type = "event", decrements_exposure = true, parameters = ["@bnb_fom2_cut"]}, # Should decrement exposure, but CAF files are bugged
+    #{ name = "bnb_fom2_cut",              type = "event", decrements_exposure = true, parameters = ["@bnb_fom2_cut"]}, # Should decrement exposure, but CAF files are bugged
 ]
 
 branch = [
     # Interaction-level truth/reco branches
+    #{ name = "bnb_fom2",                type = "event" },
     { name = "neutrino_id",             type = "true"    },
     { name = "containment",             type = "both"    },
     { name = "fiducial",                type = "both"    },
@@ -312,10 +313,11 @@ cut = [
     { name = "trigger_emulation_cut",     type = "event", decrements_exposure = false },
     { name = "data_quality_cut",          type = "event", decrements_exposure = true },
     { name = "beam_quality_cut",          type = "spill", decrements_exposure = false }, # Should decrement exposure, but CAF files are bugged
-    { name = "bnb_fom2_cut",              type = "event", decrements_exposure = false, parameters = [0.98,]}, # Should decrement exposure, but CAF files are bugged
+    #{ name = "bnb_fom2_cut",              type = "event", decrements_exposure = false, parameters = [0.98,]}, # Should decrement exposure, but CAF files are bugged
 ]
 branch = [
     # Interaction-level truth/reco branches
+    #{ name = "bnb_fom2",                type = "event"   },
     { name = "neutrino_id",             type = "true"    },
     { name = "containment",             type = "both"    },
     { name = "fiducial",                type = "true"    },

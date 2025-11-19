@@ -1,11 +1,11 @@
 [input]
-path = '/exp/icarus/app/users/jxia/medulla/root_output/icarus_nue_20251007_final_13detknob.root'
+path = '/exp/icarus/app/users/jxia/medulla/root_output/icarus_nue_20251011_13detknob.root'
 weights = '/pnfs/icarus/persistent/users/mueller/production/simulation/cvext/input*.flat.root'
 #weights = '/pnfs/icarus/persistent/users/mueller/production/simulation/nominal/input*.flat.root'
 use_additional_hash = true
 
 [output]
-path = '/exp/icarus/app/users/jxia/medulla/root_output/icarus_nue_20251009_sys_full_cut.root'
+path = '/exp/icarus/app/users/jxia/medulla/root_output/icarus_nue_20251011_sys_full_cut.root'
 histogram_destination = 'variations/'
 
 [[sysvar]]

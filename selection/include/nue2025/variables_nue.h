@@ -47,6 +47,7 @@ namespace vars::nue2025
         }
         REGISTER_VAR_SCOPE(RegistrationScope::BothParticle, leading_shower_ke, leading_shower_ke);
 
+/*
     template<class T>
         double start_dedx(const T & p)
         {
@@ -81,5 +82,6 @@ namespace vars::nue2025
             return p.start_straightness;
         }
         REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, start_straightness, start_straightness);
+        */
  }
 #endif // VARS_NUE_H
