@@ -71,13 +71,13 @@ cuts = [
 name = "onbeam"
 path = "/pnfs/icarus/persistent/users/mueller/production/data/onbeam/input*.flat.root"
 ismc = false
-disable = true
+disable = false
 
 [[sample]]
 name = "offbeam"
 path = "/pnfs/icarus/persistent/users/mueller/production/data/offbeam/input*.flat.root"
 ismc = false
-disable = true
+disable = false
 
 [[sample]]
 name = "nominal"

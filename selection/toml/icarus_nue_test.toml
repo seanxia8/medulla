@@ -1,5 +1,5 @@
 [general]
-output = "/exp/icarus/app/users/jxia/medulla/root_output_final_mc_eff_pur/icarus_nue_2025_selected"
+output = "/exp/icarus/app/users/jxia/medulla/root_output_mc_effpur/icarus_nue_2025_selected"
 #output = "/exp/icarus/app/users/jxia/medulla/root_output_final_data/icarus_nue_2025_final_selected_and_signal"
 #output = "/exp/icarus/app/users/jxia/medulla/root_output_final_vars/icarus_nue_2025_final_selected_and_signal"
 

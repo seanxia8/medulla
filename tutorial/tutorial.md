@@ -8,6 +8,7 @@ The `medulla` package is designed to be an all-encompassing tool for selection d
 This tutorial will reference the example configuration files located in the `tutorial/examples` directory. These files can be used as a starting point for your own selection development. The examples provided include:
 * `example01_ccqe.toml` - a simple charged-current quasi-elastic (CCQE)-like selection.
 * `example02_muons.toml` - a particle-level selection focusing on muons.
+* `example03_cccoh.toml` - a charged-current coherent pion production (CCCOH) selection.
 
 A slack channel in the SBN workspace (#medulla) is available for questions and discussion. Please do use it!
 
@@ -28,7 +29,7 @@ setup cmake v3_27_4
 
 # Clone the medulla repository:
 git clone https://github.com/justinjmueller/medulla.git medulla
-cd medulla && git checkout v1.0.1
+cd medulla && git checkout v1.0.3
 mkdir build && cd build
 
 # Configure and build medulla:
@@ -78,7 +79,7 @@ fsthresh = [
 ### Sample Block
 An analysis necessarily consists of datasets that the selection is run over. Each `sample` block configures an independent sample in the analysis, and is intended to decouple the sample configuration from the selection configuration. The `sample` block is defined as an entry in a list (note the double '[' in `[[sample]]`), which allows the user to define *all* samples they wish to use and run the selection (identically) on each one sequentially. The parameters available to the user are:
 * `name` - a name that uniquely identifies the sample in the output ROOT file. For example, the name `simulation` will result in all selection TTrees being placed in the `events/simulation` TDirectory.
-* `path` - a path or SAM definition specifying the input CAF files. A path may contain wildcards, but otherwise only supports basic pattern matching.
+* `path` - a path or SAM definition specifying the input CAF files. A path may contain wildcards, but otherwise only supports basic pattern matching. This may also be a list of file names.
 * `ismc` - a flag marking the file as Monte Carlo simulation. Some selections (e.g. defining signal) are only relevant for MC, so this allows a user to mark a sample accordingly.
 * `disable` - an optional flag that skips the sample when running the selection. This is useful for development work. The default is false, which will not skip the sample.
 
@@ -86,6 +87,19 @@ An analysis necessarily consists of datasets that the selection is run over. Eac
 [[sample]]
 name = "simulation"
 path = "/pnfs/sbnd/persistent/users/mueller/MCP2025B/simulation/mc5e18/input000.flat.root"
+ismc = true
+disable = false # Optional: default = false
+```
+
+Or, for multiple files:
+
+```toml
+[[sample]]
+name = "simulation"
+path = [
+    "/pnfs/sbnd/persistent/users/mueller/MCP2025B/simulation/mc5e18/input000.flat.root",
+    "/pnfs/sbnd/persistent/users/mueller/MCP2025B/simulation/mc5e18/input001.flat.root",
+]
 ismc = true
 disable = false # Optional: default = false
 ```
@@ -302,3 +316,55 @@ This tutorial has provided a comprehensive overview of the `medulla` selection f
 * Enhance the CCQE-like selection by adding additional cuts or branch variables.
 * Explore other final states by modifying the cuts and variables in the configuration file.
 * Look for detector effects in the muon kinematics
+
+# Running `medulla` in Batch (Grid) Mode
+`medulla` has built-in support for running in batch mode using HTCondor. This allows users to process large datasets efficiently by distributing the workload across multiple computing nodes. The batch processing functionality is encapsulated in the `medulla` batch scripts, which handle the project creation, job submission, and monitoring. The user is responsible for ensuring that they have prepared a stable selection configuration file (TOML) and that they have access to the necessary input data files with valid XRootD tokens. The batch scripts will take care of the rest.
+
+Systematic weights can be added to the job output by adding an additional option to the `tree` block in the selection configuration file:
+
+```toml
+[[tree]]
+name = "selected"
+sim_only = false
+add_systematics = true
+mode = "reco"
+cut = [
+    ...
+]
+branch = [
+    ...
+]
+```
+
+Trees with `add_systematics = true` will have additional trees created in the output file corresponding to the configured systematics. This configuration is provided by default with the `sys_template.toml` file in the `medulla/batch` directory, but the user can modify this with a flag when creating the project. Only samples marked as `ismc = true` will have systematics applied.
+
+Once the configuration file is ready, the user can create a batch project using the Python script `medulla/batch/medulla.py`. This script takes several command-line arguments to customize the batch job submission:
+
+```bash
+python3 medulla/batch/medulla.py -t <path_to_config>/example01_ccqe.toml -p <path_to_project> -b <files_per_batch> --create-project
+```
+
+Some notes on the command-line arguments:
+* `-t` or `--toml` - specifies the path to the selection configuration file (TOML).
+* `-p` or `--project` - specifies the path to the project directory where batch job files will be created. This should be a directory accessible by the batch system (e.g., `scratch`).
+* `-b` or `--batch-size` - specifies the number of input files to process per batch job. This allows the user to control the granularity of the workload distribution. It is not unreasonable to use a batch size of 1 for large files.
+* `--create-project` - a flag that indicates the project should be created. This will set up the necessary directory structure and job files.
+
+The total number of files and therefore the total number of jobs is calculated by expanding patterns in the `path` parameter of each `sample` block in the configuration file. Once the project is created, it is recommended that the user submit a single test job to ensure that everything is set up correctly:
+
+```bash
+python3 medulla/batch/medulla.py -p <path_to_project> -e <experiment> --test-job
+```
+This will form a candidate job submission and prompt the user to confirm that it looks correct. If everything looks good, the user can proceed with the test job submission. After the test job completes successfully, the user can submit the full set of jobs:
+
+```bash
+python3 medulla/batch/medulla.py -p <path_to_project> -e <experiment> --launch-jobs
+```
+
+or
+
+```bash
+python3 medulla/batch/medulla.py -p <path_to_project> -e <experiment> --launch-jobs N
+```
+
+where `N` is some integer number of jobs to launch (e.g., `10` to launch 10 jobs). If no number is provided, all jobs will be launched. Each time this script is run, it will check for completed output files and only submit jobs that have not yet completed. This does not check for running jobs, so the user should be careful not to submit duplicate jobs.
