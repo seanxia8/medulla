@@ -563,9 +563,9 @@ namespace cuts
 
             for(const auto & q : obj.particles){
                 if(pvars::pid(q) != pvars::kMuon) continue;
-                double distance2 = std::pow(p.start_x - q.end_x, 2) +
-                                   std::pow(p.start_y - q.end_y, 2) +
-                                   std::pow(p.start_z - q.end_z, 2);
+                double distance2 = std::pow(pvars::start_x(p) - pvars::end_x(q), 2) +
+                                   std::pow(pvars::start_y(p) - pvars::end_y(q), 2) +
+                                   std::pow(pvars::start_z(p) - pvars::end_z(q), 2);
                 if(distance2 < maxd2) return true;
             }
         }
