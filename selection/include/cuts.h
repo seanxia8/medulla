@@ -548,5 +548,29 @@ namespace cuts
         return count == 1;
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Both, single_michel, single_michel);
+    /**
+     * @brief Cut to select interactions with a Michel electron within certain range from a muon.
+     * @tparam T the type of interaction (true or reco).
+     * @param obj the interaction to select on.
+     * @return true if the interaction has a Michel electron that satisfies the criteria.
+    */
+    template<class T>
+    bool michel_in_range(const T & obj, std::vector<double> params={8.7})
+    {
+        const double maxd2 = params[0] * params[0];
+        for(const auto & p : obj.particles){
+            if(pvars::semantic_type(p) != 2) continue;
+
+            for(const auto & q : obj.particles){
+                if(pvars::pid(q) != pvars::kMuon) continue;
+                double distance2 = std::pow(p.start_x - q.end_x, 2) +
+                                   std::pow(p.start_y - q.end_y, 2) +
+                                   std::pow(p.start_z - q.end_z, 2);
+                if(distance2 < maxd2) return true;
+            }
+        }
+        return false;
+    }
+    REGISTER_CUT_SCOPE(RegistrationScope::Both, michel_in_range, michel_in_range);
 }
 #endif

@@ -91,6 +91,16 @@ namespace pvars
     REGISTER_VAR_SCOPE(RegistrationScope::BothParticle, semantic_type, semantic_type);
 
     /**
+     * @brief Get particle pdg code
+     */
+    template<class T>
+    double pdg(const T & p)
+    {
+        return p.pdg_code;
+    }
+    REGISTER_VAR_SCOPE(RegistrationScope::TrueParticle, pdg, pdg);
+
+    /**
      * @brief Variable for the best-match IoU of the particle.
      * @details The best-match IoU is the intersection over union of the
      * points belonging to a pair of reconstructed and true particles. The

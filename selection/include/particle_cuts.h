@@ -177,5 +177,27 @@ namespace pcuts
         return pvars::semantic_type(p) == static_cast<int>(params[0]);
     }
     REGISTER_CUT_SCOPE(RegistrationScope::BothParticle, is_semantic_type, is_semantic_type);
+
+        /**
+     * @brief Check if the particle is of the given semantic type.
+     * @details This function checks if the particle is of the given semantic
+     * type. The semantic type is determined by the shape variable, which is
+     * assigned upstream in SPINE based on the pixel-level semantic
+     * segmentation.
+     * @tparam T the type of particle (true or reco).
+     * @param p the particle to check.
+     * @param params the parameters for the cut. In this case, this sets the
+     * semantic type to check against. Defaults to 0, which corresponds to
+     * a shower.
+     * @return true if the particle is of the given semantic type.
+     */
+    template<class T>
+    bool is_pdg_code(const T & p, std::vector<double> params={0.0,})
+    {
+        if(params.size() != 1)
+            throw std::invalid_argument("is_pdg_code requires exactly one parameter: the semantic type to check against.");
+        return pvars::pdg(p) == static_cast<int>(params[0]);
+    }
+    REGISTER_CUT_SCOPE(RegistrationScope::TrueParticle, is_pdg_code, is_pdg_code);
 }
 #endif // PARTICLE_CUTS_H

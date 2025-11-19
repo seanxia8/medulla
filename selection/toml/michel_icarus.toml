@@ -1,0 +1,198 @@
+[general]
+output = "/exp/icarus/app/users/jxia/medulla/root_output_michel/michel_test"
+pidfn = "default_pid"
+primfn = "default_primary_classification"
+
+[[category]] # 0 : Cosmic mu- to e-
+cuts = [
+    { name = "!neutrino" },
+    { name = "is_semantic_type",  parameters = [2.0,] },
+    { name = "is_pdg_code",       parameters = [11,]  },
+]
+
+[[category]] # 1 : Cosmic mu- to e-
+cuts = [
+    { name = "!neutrino" },
+    { name = "is_semantic_type",  parameters = [2.0,] },
+    { name = "is_pdg_code",       parameters = [-11,] },
+]
+
+[[category]] # 2 : gamma
+cuts = [
+    { name = "is_pdg_code",       parameters = [22,]  },
+]
+
+[[category]] # 3 : others
+cuts = [
+    { name = "!neutrino",         parameters = [22,]  },
+    { name = "!is_semantic_type", parameters = [2.0,] },
+    { name = "!is_pdg_code",      parameters = [11,]  },
+    { name = "!is_pdg_code",      parameters = [-11,] },
+    { name = "!is_pdg_code",      parameters = [22,]  },
+]
+
+[[sample]]
+name = "onbeam"
+path = "/pnfs/icarus/persistent/users/mueller/production/data/onbeam/input*.flat.root"
+ismc = false
+disable = false
+
+[[sample]]
+name = "offbeam"
+path = "/pnfs/icarus/persistent/users/mueller/production/data/offbeam/input*.flat.root"
+ismc = false
+disable = false
+
+[[sample]]
+name = "nominal"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/nominal/input*.flat.root"
+ismc = true
+disable = false
+
+[[sample]]
+name = "cvext"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/cvext/input*.flat.root"
+ismc = true
+disable = false
+
+[[sample]]
+name = "var00"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var00/input*.flat.root"
+ismc = true
+disable = false
+
+[[sample]]
+name = "var01"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var01/input*.flat.root"
+ismc = true
+disable = false
+
+[[sample]]
+name = "var02"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var02/input*.flat.root"
+ismc = true
+disable = false
+
+[[sample]]
+name = "var03m"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var03m/input*.flat.root"
+ismc = true
+disable = false
+
+[[sample]]
+name = "var03p"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var03p/input*.flat.root"
+ismc = true
+disable = false
+
+[[sample]]
+name = "var04"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var04/input*.flat.root"
+ismc = true
+disable = false
+
+[[sample]]
+name = "var05"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var05/input*.flat.root"
+ismc = true
+disable = false
+
+[[sample]]
+name = "var06"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var06/input*.flat.root"
+ismc = true
+disable = false
+
+[[sample]]
+name = "var07"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var07/input*.flat.root"
+ismc = true
+disable = false
+
+[[sample]]
+name = "var09m"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var09m/input*.flat.root"
+ismc = true
+disable = false
+
+[[sample]]
+name = "var09p"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var09p/input*.flat.root"
+ismc = true
+disable = false
+
+[[sample]]
+name = "var10m"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var10m/input*.flat.root"
+ismc = true
+disable = false
+
+[[sample]]
+name = "var10p"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var10p/input*.flat.root"
+ismc = true
+disable = false
+
+[[sample]]
+name = "var11"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var11/input*.flat.root"
+ismc = true
+disable = false
+
+[[sample]]
+name = "var12m"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var12m/input*.flat.root"
+ismc = true
+disable = false
+
+[[sample]]
+name = "var12p"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var12p/input*.flat.root"
+ismc = true
+disable = false
+
+[[sample]]
+name = "var13m"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var13m/input*.flat.root"
+ismc = true
+disable = false
+
+[[sample]]
+name = "var13p"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var13p/input*.flat.root"
+ismc = true
+disable = false
+
+[[tree]]
+name = "selected"
+sim_only = false
+mode = "reco"
+cut = [
+    {name = "!valid_flashmatch", type = "reco"},
+    {name = "size_cut", type = "reco_particle", parameters = [7,]},
+    {name = "michel_in_range", type= "reco", parameters = [8.7,]},
+    {name = "is_semantic_type", type = "reco_particle", parameters = [2.0,]},
+]
+branch = [
+    {name = "semantic_type", type = "both_particle"},
+    {name = "iou", type = "both_particle"},
+    {name = "ke", type = "both_particle"},
+    {name = "calo_ke", type = "reco_particle"},
+]
+
+[[tree]]
+name = "signal"
+sim_only = false
+mode = "reco"
+cut = [
+    {name = "!valid_flashmatch", type = "reco"},
+    {name = "size_cut", type = "true_particle", parameters = [7,]},
+    {name = "michel_in_range", type= "true", parameters = [8.7,]},
+    {name = "is_semantic_type", type = "true_particle", parameters = [2.0,]},
+]
+branch = [
+    {name = "semantic_type", type = "both_particle"},
+    {name = "iou", type = "both_particle"},
+    {name = "ke", type = "both_particle"},
+    {name = "calo_ke", type = "reco_particle"},
+]
