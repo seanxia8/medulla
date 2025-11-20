@@ -119,6 +119,7 @@ int main(int argc, char * argv[])
         {
             // Map of category enumeration to cut functions.
             std::map<double, CutFn<TType>> category_cut_functions;
+            std::map<double, CutFn<TParticleType>> category_particle_cut_functions;
 
             // Iterate over the categories and construct the cut functions.
             std::vector<cfg::ConfigurationTable> categories(config.get_subtables("category"));
@@ -128,60 +129,90 @@ int main(int argc, char * argv[])
                 std::vector<cfg::ConfigurationTable> cuts = category.get_subtables("cuts");
                 for(const auto & cut : cuts)
                 {
-                    // Retrieve the cut name and check for negation.
-                    std::string name = cut.get_string_field("name");
-                    bool invert = false;
-                    if(name.at(0) == '!')
-                    {
-                        invert = true;
-                        name = name.substr(1); // Remove the negation character.
-                    }
-                    std::string cut_type_prefix = "true";
-                    //name = "true_" + name;
+                    if(!cuts.has_field("type") || cuts.get_string_field("type")=="true") {
+                        // Retrieve the cut name and check for negation.
+                        std::string name = cut.get_string_field("name");
+                        bool invert = false;
+                        if(name.at(0) == '!')
+                        {
+                            invert = true;
+                            name = name.substr(1); // Remove the negation character.
+                        }
+                        std::string cut_type_prefix = "true";
+                        name = "true_" + name;
 
-                    // Load cut type (if any)
-                    std::string cut_type;
-                    if(cut.has_field("type"))
-                        cut_type = cut.get_string_field("type");
-                        cut_type_prefix = cut_type
+                        // Load parameters (if any) for the cut.
+                        std::vector<double> params;
+                        if(cut.has_field("parameters"))
+                            params = cut.get_double_vector("parameters");
 
-                    name = cut_type_prefix + "_" + name;
+                        auto factory = CutFactoryRegistry<TType>::instance().get(name);
 
-                    // Load parameters (if any) for the cut.
-                    std::vector<double> params;
-                    if(cut.has_field("parameters"))
-                        params = cut.get_double_vector("parameters");
+                        if(invert)
+                        {
+                            // If the cut is inverted, we need to negate the function.
+                            auto fn = factory(params);
+                            true_cut_functions.push_back([fn](const TType & e) { return !fn(e); });
+                        }
+                        else
+                        {
+                            // Otherwise, we just add the function as is.
+                            true_cut_functions.push_back(factory(params));
+                        }
+                    } // if TType cut
+                    else if (cuts.has_field("type") && cuts.get_string_field("type")=="true_particle") {
+                        // Retrieve the cut name and check for negation.
+                        std::string name = cut.get_string_field("name");
+                        bool invert = false;
+                        if(name.at(0) == '!')
+                        {
+                            invert = true;
+                            name = name.substr(1); // Remove the negation character.
+                        }
+                        std::string cut_type_prefix = "true_particle";
+                        name = "true_particle_" + name;
 
-                    auto factory = CutFactoryRegistry<TType>::instance().get(name);
-                    if(cut_type == 'true_particle'){
-                        factory = CutFactoryRegistry<TParticleType>::instance().get(name);
-                    }
-                    else if(cut_type == 'event'){
-                        factory = CutFactoryRegistry<EventType>::instance().get(name);
-                    }
-                    else if(cut_type == 'spill'){
-                        factory = CutFactoryRegistry<SpillType>::instance().get(name);
-                    }
+                        // Load parameters (if any) for the cut.
+                        std::vector<double> params;
+                        if(cut.has_field("parameters"))
+                            params = cut.get_double_vector("parameters");
 
-                    if(invert)
-                    {
-                        // If the cut is inverted, we need to negate the function.
-                        auto fn = factory(params);
-                        true_cut_functions.push_back([fn](const TType & e) { return !fn(e); });
-                    }
-                    else
-                    {
-                        // Otherwise, we just add the function as is.
-                        true_cut_functions.push_back(factory(params));
-                    }
-                }
+                        auto factory = CutFactoryRegistry<TParticleType>::instance().get(name);
+
+                        if(invert)
+                        {
+                            // If the cut is inverted, we need to negate the function.
+                            auto fn = factory(params);
+                            category_particle_cut_functions.try_emplace(
+                                category_particle_cut_functions.size(),
+                                [fn](const TParticleType & p) { return !fn(p); }
+                            );
+                        }
+                        else
+                        {
+                            // Otherwise, we just add the function as is.
+                            category_particle_cut_functions.try_emplace(
+                                category_particle_cut_functions.size(),
+                                factory(params)
+                            );
+                        }
+                    } // if TParticleType cut
+
+                } // for cut in category
                 // Compose a common cut function for the category.
                 auto category_cut = [true_cut_functions](const TType & e) -> bool {
                     return std::all_of(true_cut_functions.begin(), true_cut_functions.end(), [&e](auto & f) { return f(e); });
                 };
+                auto category_particle_cut = [category_particle_cut_functions](const TParticleType & p) -> bool {
+                    return std::all_of(category_particle_cut_functions.begin(), category_particle_cut_functions.end(), [&p](auto & [cat, f]) { return f(p); });
+                };
                 category_cut_functions.try_emplace(
                     category_cut_functions.size(),
                     category_cut
+                );
+                category_particle_cut_functions.try_emplace(
+                    category_particle_cut_functions.size(),
+                    category_particle_cut
                 );
             }
 
@@ -197,10 +228,26 @@ int main(int argc, char * argv[])
                 }
                 return PLACEHOLDERVALUE; // No category matched.
             };
+            auto category_particle_fn = [category_particle_cut_functions](const TParticleType & p) -> double
+            {
+                // Iterate over the category cut functions and return the first
+                // one that returns true.
+                for(const auto & [category, cut_fn] : category_particle_cut_functions)
+                {
+                    if(cut_fn(p))
+                        return category; // Return the category number.
+                }
+                return PLACEHOLDERVALUE; // No category matched.
+            };
+
             // Register the category function.
             VarFactoryRegistry<TType>::instance().register_fn(
                 "true_category",
                 [category_fn](const std::vector<double>&) -> VarFn<TType> { return category_fn; }
+            );
+            VarFactoryRegistry<TParticleType>::instance().register_fn(
+                "true_particle_category",
+                [category_particle_fn](const std::vector<double>&) -> VarFn<TParticleType> { return category_particle_fn; }
             );
         }
 
