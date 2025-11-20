@@ -205,7 +205,13 @@ int main(int argc, char * argv[])
                     // 2) Particle-level cuts: only for interactions that passed event cuts
                     bool particle_ok = std::all_of(
                         def.particle_cuts.begin(), def.particle_cuts.end(),
-                        [&particles](const auto & pc){ return pc(particles); }
+                        [&particles](const auto & pc)
+                        {
+                            return std::any_of(
+                                particles.begin(), particles.end(),
+                                [&pc](const auto & p) { return pc(p); }
+                            );
+                        }
                     );
 
                     if (particle_ok)
