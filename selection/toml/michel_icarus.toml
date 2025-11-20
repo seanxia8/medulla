@@ -17,18 +17,24 @@ cuts = [
     { name = "is_pdg_code",       type='true_particle', parameters = [-11,] },
 ]
 
-[[category]] # 2 : gamma
+[[category]] # 2 : offbeam gamma
 cuts = [
+    { name = "!neutrino" },
     { name = "is_pdg_code",       type='true_particle', parameters = [22,]  },
 ]
 
-[[category]] # 3 : others
+[[category]] # 3 : other cosmics
 cuts = [
-    { name = "!neutrino",         parameters = [22,]  },
+    { name = "!neutrino" },
     { name = "!is_semantic_type", type='true_particle', parameters = [2.0,] },
     { name = "!is_pdg_code",      type='true_particle', parameters = [11,]  },
     { name = "!is_pdg_code",      type='true_particle', parameters = [-11,] },
     { name = "!is_pdg_code",      type='true_particle', parameters = [22,]  },
+]
+
+[[category]] # 4 : beam
+cuts = [
+    { name = "neutrino" },
 ]
 
 [[sample]]
