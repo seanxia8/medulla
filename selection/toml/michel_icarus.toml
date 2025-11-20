@@ -1,5 +1,5 @@
 [general]
-output = "/exp/icarus/app/users/jxia/medulla/root_output_michel/michel_test"
+output = "output"
 pidfn = "default_pid"
 primfn = "default_primary_classification"
 
@@ -166,6 +166,7 @@ disable = false
 [[tree]]
 name = "selected"
 sim_only = false
+add_systematics = true
 mode = "reco"
 cut = [
     {name = "!valid_flashmatch", type = "reco"},
