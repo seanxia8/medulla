@@ -136,7 +136,16 @@ int main(int argc, char * argv[])
                         invert = true;
                         name = name.substr(1); // Remove the negation character.
                     }
-                    name = "true_" + name;
+                    std::string cut_type_prefix = "true";
+                    //name = "true_" + name;
+
+                    // Load cut type (if any)
+                    std::string cut_type;
+                    if(cut.has_field("type"))
+                        cut_type = cut.get_string_field("type");
+                        cut_type_prefix = cut_type
+
+                    name = cut_type_prefix + "_" + name;
 
                     // Load parameters (if any) for the cut.
                     std::vector<double> params;
@@ -144,6 +153,16 @@ int main(int argc, char * argv[])
                         params = cut.get_double_vector("parameters");
 
                     auto factory = CutFactoryRegistry<TType>::instance().get(name);
+                    if(cut_type == 'true_particle'){
+                        factory = CutFactoryRegistry<TParticleType>::instance().get(name);
+                    }
+                    else if(cut_type == 'event'){
+                        factory = CutFactoryRegistry<EventType>::instance().get(name);
+                    }
+                    else if(cut_type == 'spill'){
+                        factory = CutFactoryRegistry<SpillType>::instance().get(name);
+                    }
+
                     if(invert)
                     {
                         // If the cut is inverted, we need to negate the function.

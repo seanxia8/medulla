@@ -6,29 +6,29 @@ primfn = "default_primary_classification"
 [[category]] # 0 : Cosmic mu- to e-
 cuts = [
     { name = "!neutrino" },
-    { name = "is_semantic_type",  parameters = [2.0,] },
-    { name = "is_pdg_code",       parameters = [11,]  },
+    { name = "is_semantic_type",  type='true_particle', parameters = [2.0,] },
+    { name = "is_pdg_code",       type='true_particle', parameters = [11,]  },
 ]
 
 [[category]] # 1 : Cosmic mu- to e-
 cuts = [
     { name = "!neutrino" },
-    { name = "is_semantic_type",  parameters = [2.0,] },
-    { name = "is_pdg_code",       parameters = [-11,] },
+    { name = "is_semantic_type",  type='true_particle', parameters = [2.0,] },
+    { name = "is_pdg_code",       type='true_particle', parameters = [-11,] },
 ]
 
 [[category]] # 2 : gamma
 cuts = [
-    { name = "is_pdg_code",       parameters = [22,]  },
+    { name = "is_pdg_code",       type='true_particle', parameters = [22,]  },
 ]
 
 [[category]] # 3 : others
 cuts = [
     { name = "!neutrino",         parameters = [22,]  },
-    { name = "!is_semantic_type", parameters = [2.0,] },
-    { name = "!is_pdg_code",      parameters = [11,]  },
-    { name = "!is_pdg_code",      parameters = [-11,] },
-    { name = "!is_pdg_code",      parameters = [22,]  },
+    { name = "!is_semantic_type", type='true_particle', parameters = [2.0,] },
+    { name = "!is_pdg_code",      type='true_particle', parameters = [11,]  },
+    { name = "!is_pdg_code",      type='true_particle', parameters = [-11,] },
+    { name = "!is_pdg_code",      type='true_particle', parameters = [22,]  },
 ]
 
 [[sample]]
@@ -175,6 +175,7 @@ cut = [
     {name = "is_semantic_type", type = "reco_particle", parameters = [2.0,]},
 ]
 branch = [
+    {name = "neutrino_id",  type = "true"},
     {name = "semantic_type", type = "both_particle"},
     {name = "iou", type = "both_particle"},
     {name = "ke", type = "both_particle"},
@@ -192,6 +193,7 @@ cut = [
     {name = "is_semantic_type", type = "true_particle", parameters = [2.0,]},
 ]
 branch = [
+    {name = "neutrino_id",  type = "true"},
     {name = "semantic_type", type = "both_particle"},
     {name = "iou", type = "both_particle"},
     {name = "ke", type = "both_particle"},
