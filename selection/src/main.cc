@@ -132,7 +132,7 @@ int main(int argc, char * argv[])
             std::vector<cfg::ConfigurationTable> categories(config.get_subtables("category"));
             for(const auto & category : categories)
             {
-                std::vector<CutFn<TType>> true_cut_functions;
+                CategoryDef def;
                 std::vector<cfg::ConfigurationTable> cuts = category.get_subtables("cuts");
                 for(const auto & cut : cuts)
                 {
@@ -203,21 +203,11 @@ int main(int argc, char * argv[])
                         continue;
 
                     // 2) Particle-level cuts: only for interactions that passed event cuts
-                    bool particle_ok = true;
+                    bool particle_ok = std::all_of(
+                        def.particle_cuts.begin(), def.particle_cuts.end(),
+                        [&particles](const auto & pc){ return pc(particles); }
+                    );
 
-                    for (const auto & pc : def.particle_cuts)
-                    {
-                        bool any_particle_pass = std::all_of(
-                            particles.begin(), particles.end(),
-                            [&pc](const TParticleType & p) { return pc(p); }
-                        );
-
-                        if (!any_particle_pass)
-                        {
-                            particle_ok = false;
-                            break;
-                        }
-                    }
                     if (particle_ok)
                         return static_cast<double>(icat);
                 }
