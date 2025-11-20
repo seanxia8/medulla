@@ -207,10 +207,7 @@ int main(int argc, char * argv[])
                         def.particle_cuts.begin(), def.particle_cuts.end(),
                         [&particles](const auto & pc)
                         {
-                            return std::any_of(
-                                particles.begin(), particles.end(),
-                                [&pc](const auto & p) { return pc(p); }
-                            );
+                            for (const auto & p : particles) { if (pc(p)) return true; }
                         }
                     );
 
@@ -224,7 +221,7 @@ int main(int argc, char * argv[])
             // Register the category function.
             VarFactoryRegistry<TType>::instance().register_fn(
                 "true_category",
-                [category_fn](const std::vector<double>&) -> VarFn<TType> { return category_fn; }
+                [&category_fn](const std::vector<double>&) -> VarFn<TType> { return category_fn; }
             );
         }
 
