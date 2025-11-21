@@ -199,6 +199,10 @@ int main(int argc, char * argv[])
                         def.interaction_cuts.begin(), def.interaction_cuts.end(),
                         [&e](const auto & f) { return f(e); }
                     );
+
+                    if def.particle_cuts.empty()
+                       return interaction_ok;
+
                     if (!interaction_ok)
                         continue;
 
