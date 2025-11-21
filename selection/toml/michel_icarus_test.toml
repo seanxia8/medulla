@@ -1,0 +1,76 @@
+[general]
+output = "output"
+pidfn = "default_pid"
+primfn = "default_primary_classification"
+
+[[category]] # 0 : Cosmic mu- to e-
+cuts = [
+    { name = "!neutrino" },
+    { name = "is_michel_pdg", parameter = [11,] },
+]
+
+[[category]] # 1 : Cosmic mu- to e-
+cuts = [
+    { name = "!neutrino" },
+    { name = "is_michel_pdg", parameters = [-11,] },
+]
+
+[[category]] # 2 : offbeam gamma
+cuts = [
+    { name = "!neutrino" },
+    { name = "is_pdg_code",   parameters = [22,]  },
+]
+
+[[category]] # 3 : other cosmics
+cuts = [
+    { name = "!neutrino" },
+    { name = "!is_pdg_code",  parameters = [11,]  },
+    { name = "!is_pdg_code",  parameters = [-11,] },
+    { name = "!is_pdg_code",  parameters = [22,]  },
+]
+
+[[category]] # 4 : beam
+cuts = [
+    { name = "neutrino" },
+]
+
+[[sample]]
+name = "offbeam"
+path = "/pnfs/icarus/persistent/users/mueller/production/data/offbeam/input*.flat.root"
+ismc = false
+disable = false
+
+[[tree]]
+name = "selected"
+sim_only = false
+add_systematics = true
+mode = "reco"
+cut = [
+    {name = "!valid_flashmatch", type = "reco"},
+    {name = "michel_in_range",   type = "reco", parameters = [8.7,]},
+    {name = "michel_size",       type = "reco", parameters = [7,]},
+]
+branch = [
+    {name = "neutrino_id",   type = "true"},
+    {name = "semantic_type", type = "both_particle", selector = "target_michel"},
+    {name = "iou",           type = "both_particle", selector = "target_michel"},
+    {name = "ke",            type = "both_particle", selector = "target_michel"},
+    {name = "calo_ke",       type = "reco_particle", selector = "target_michel"},
+]
+
+[[tree]]
+name = "signal"
+sim_only = false
+mode = "reco"
+cut = [
+    {name = "!valid_flashmatch", type = "reco"},
+    {name = "michel_in_range",   type = "true", parameters = [8.7,]},
+    {name = "size_cut",          type = "true", parameters = [7,]},
+]
+branch = [
+    {name = "neutrino_id",   type = "true"},
+    {name = "semantic_type", type = "both_particle", selector = "target_michel"},
+    {name = "iou",           type = "both_particle", selector = "target_michel"},
+    {name = "ke",            type = "both_particle", selector = "target_michel"},
+    {name = "calo_ke",       type = "reco_particle", selector = "target_michel"},
+]
