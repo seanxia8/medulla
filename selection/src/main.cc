@@ -6,7 +6,6 @@
  * file, initializing the analysis framework, and running the analysis.
  * @author mueller@fnal.gov
  */
-
 #define PLACEHOLDERVALUE std::numeric_limits<double>::quiet_NaN()
 #define PROTON_BINDING_ENERGY 30.9 // MeV
 #define BEAM_IS_NUMI false
@@ -22,9 +21,7 @@
 #include "framework.h"
 #include "scorers.h"
 #include "cuts.h"
-#include "nue2025/cuts_nue2025.h"
 #include "variables.h"
-#include "nue2025/variables_nue.h"
 #include "mctruth.h"
 #include "event_cuts.h"
 #include "event_variables.h"
@@ -118,21 +115,13 @@ int main(int argc, char * argv[])
         if(config.has_field("category"))
         {
             // Map of category enumeration to cut functions.
-            //std::map<double, CutFn<TType>> category_cut_functions;
-            //std::map<double, CutFn<TParticleType>> category_particle_cut_functions;
+            std::map<double, CutFn<TType>> category_cut_functions;
 
-            // Structure of category definitions.
-            struct CategoryDef {
-                std::vector<CutFn<TType>>         interaction_cuts;    // “true” cuts
-                std::vector<CutFn<TParticleType>> particle_cuts; // “true_particle” cuts
-            };
-
-            std::vector<CategoryDef> categories_defs;
             // Iterate over the categories and construct the cut functions.
             std::vector<cfg::ConfigurationTable> categories(config.get_subtables("category"));
             for(const auto & category : categories)
             {
-                CategoryDef def;
+                std::vector<CutFn<TType>> true_cut_functions;
                 std::vector<cfg::ConfigurationTable> cuts = category.get_subtables("cuts");
                 for(const auto & cut : cuts)
                 {
@@ -144,91 +133,50 @@ int main(int argc, char * argv[])
                         invert = true;
                         name = name.substr(1); // Remove the negation character.
                     }
-                    // Default type: "true"
-                    std::string cut_type = "true";
-                    if (cut.has_field("type"))
-                        cut_type = cut.get_string_field("type");
+                    name = "true_" + name;
 
                     // Load parameters (if any) for the cut.
                     std::vector<double> params;
                     if(cut.has_field("parameters"))
                         params = cut.get_double_vector("parameters");
 
-                    if (cut_type == "true")
+                    auto factory = CutFactoryRegistry<TType>::instance().get(name);
+                    if(invert)
                     {
-                        std::string full_name = "true_" + name;
-                        auto factory = CutFactoryRegistry<TType>::instance().get(full_name);
+                        // If the cut is inverted, we need to negate the function.
                         auto fn = factory(params);
-
-                        if (invert) {
-                            def.interaction_cuts.push_back(
-                                [fn](const TType & e) { return !fn(e); }
-                            );
-                        } else {
-                            def.interaction_cuts.push_back(fn);
-                        }
+                        true_cut_functions.push_back([fn](const TType & e) { return !fn(e); });
                     }
-                    else if (cut_type == "true_particle")
-                    {
-                        std::string full_name = "true_particle_" + name;
-                        auto factory = CutFactoryRegistry<TParticleType>::instance().get(full_name);
-                        auto fn = factory(params);
-
-                        if (invert) {
-                            def.particle_cuts.push_back(
-                                [fn](const TParticleType & p) { return !fn(p); }
-                            );
-                        } else {
-                            def.particle_cuts.push_back(fn);
-                        }
-                    }
-                } // for cut in category
-                categories_defs.push_back(std::move(def));
-            } // for category in categories
-
-            auto category_fn = [categories_defs](const TType & e) -> double
-            {
-                const auto & particles = e.particles;
-
-                for (std::size_t icat = 0; icat < categories_defs.size(); ++icat)
-                {
-                    const auto & def = categories_defs[icat];
-
-                    // 1) Interaction-level cuts: early reject
-                    bool interaction_ok = std::all_of(
-                        def.interaction_cuts.begin(), def.interaction_cuts.end(),
-                        [&e](const auto & f) { return f(e); }
-                    );
-
-                    if (def.particle_cuts.empty() && interaction_ok)
-                        return static_cast<double>(icat);
-                    else if (!interaction_ok)
-                        continue;
-
-                    // 2) Particle-level cuts: only for interactions that passed event cuts
-                    bool particle_ok = std::all_of(
-                        def.particle_cuts.begin(), def.particle_cuts.end(),
-                        [&particles](const auto & pc)
-                        {
-                            for (const auto & p : particles)
-                            {
-                                if (pc(p)) return true;
-                            }
-                            return false;
-                        }
-                    );
-
-                    if (particle_ok)
-                        return static_cast<double>(icat);
+                    else
+                        // Otherwise, we just add the function as is.
+                        true_cut_functions.push_back(factory(params));
                 }
+                // Compose a common cut function for the category.
+                auto category_cut = [true_cut_functions](const TType & e) -> bool {
+                    return std::all_of(true_cut_functions.begin(), true_cut_functions.end(), [&e](auto & f) { return f(e); });
+                };
+                category_cut_functions.try_emplace(
+                    category_cut_functions.size(),
+                    category_cut
+                );
+            }
 
-                return PLACEHOLDERVALUE;
+            // Create the category function.
+            auto category_fn = [category_cut_functions](const TType & e) -> double
+            {
+                // Iterate over the category cut functions and return the first
+                // one that returns true.
+                for(const auto & [category, cut_fn] : category_cut_functions)
+                {
+                    if(cut_fn(e))
+                        return category; // Return the category number.
+                }
+                return PLACEHOLDERVALUE; // No category matched.
             };
-
             // Register the category function.
             VarFactoryRegistry<TType>::instance().register_fn(
                 "true_category",
-                [&category_fn](const std::vector<double>&) -> VarFn<TType> { return category_fn; }
+                [category_fn](const std::vector<double>&) -> VarFn<TType> { return category_fn; }
             );
         }
 
