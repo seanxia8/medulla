@@ -200,8 +200,8 @@ int main(int argc, char * argv[])
                         [&e](const auto & f) { return f(e); }
                     );
 
-                    if (def.particle_cuts.empty())
-                       return interaction_ok;
+                    if (def.particle_cuts.empty() && interaction_ok)
+                       return static_cast<double>(icat);
 
                     if (!interaction_ok)
                         continue;
