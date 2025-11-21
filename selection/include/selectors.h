@@ -344,8 +344,10 @@ namespace selectors
             throw std::invalid_argument(
                 "target_michel requires exactly one parameter: distance threshold to the parent muon."
             );
-        std::pair<size_t, size_t> michel_muon_ids = utilities::find_michel_muon_index(obj, params[0]);
-        return michel_muon_ids->first;
+        auto index = utilities::find_michel_muon_index(obj, params[0]);
+        if (!index)
+            return kNoMatch;
+        return index->first;
     }
     REGISTER_SELECTOR(target_michel, target_michel);
 
