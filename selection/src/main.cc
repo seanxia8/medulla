@@ -201,9 +201,8 @@ int main(int argc, char * argv[])
                     );
 
                     if (def.particle_cuts.empty() && interaction_ok)
-                       return static_cast<double>(icat);
-
-                    if (!interaction_ok)
+                        return static_cast<double>(icat);
+                    else if (!interaction_ok)
                         continue;
 
                     // 2) Particle-level cuts: only for interactions that passed event cuts
