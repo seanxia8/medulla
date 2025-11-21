@@ -337,10 +337,14 @@ namespace selectors
      * @return the index of the leading particle (highest KE).
      */
     template <class T>
-    size_t target_michel(const T & obj)
+    size_t target_michel(const T & obj, std::vector<double> params={8.7})
     {
-        std::pair michel_muon_ids = vars::michel_muon_index(obj);
-        return static_cast<size_t>(michel_muon_ids.first);
+        if (params.size() != 1)
+            throw std::invalid_argument(
+                "target_michel requires exactly one parameter: distance threshold to the parent muon."
+            );
+        std::pair<size_t, size_t> michel_muon_ids = cuts::find_michel_muon_index(obj, params[0]);
+        return michel_muon_ids->first;
     }
     REGISTER_SELECTOR(target_michel, target_michel);
 

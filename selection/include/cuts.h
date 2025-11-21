@@ -28,7 +28,7 @@
  * used on both true and reconstructed interactions.
  */
 namespace cuts
-{   
+{
     /**
      * @brief Apply a cut on the validity of the flash match.
      * @details A "valid" flash match is defined as a flash-interaction
@@ -549,6 +549,40 @@ namespace cuts
         return count == 1;
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Both, single_michel, single_michel);
+
+
+    template <class T>
+    std::optional<std::pair<size_t, size_t>> find_michel_muon_index(const T& obj, double max_dist = 8.7)
+    {
+        const double maxd2 = max_dist * max_dist;
+        const auto& parts = obj.particles;
+
+        for (size_t i = 0; i < parts.size(); ++i)
+        {
+            const auto& p = parts[i];
+            if (pvars::semantic_type(p) != 2)
+                continue;
+
+            for (size_t j = 0; j < parts.size(); ++j)
+            {
+                if (i == j) continue;
+
+                const auto& q = parts[j];
+                if (pvars::pid(q) != pvars::kMuon) continue;
+                if (!pvars::primary_classification(q)) continue;
+
+                const double dx = pvars::start_x(p) - pvars::end_x(q);
+                const double dy = pvars::start_y(p) - pvars::end_y(q);
+                const double dz = pvars::start_z(p) - pvars::end_z(q);
+                const double d2 = dx*dx + dy*dy + dz*dz;
+
+                if (d2 < maxd2)
+                    return std::make_pair(i, j);
+            }
+        }
+
+        return std::nullopt;
+    }
     /**
      * @brief Cut to select interactions with a Michel electron within certain range from a primary muon.
      * @tparam T the type of interaction (true or reco).
@@ -556,22 +590,15 @@ namespace cuts
      * @return true if the interaction has a Michel electron that satisfies the criteria.
     */
     template<class T>
-    bool michel_in_range(const T & obj, std::vector<double> params={8.7})
+    bool michel_in_range(const T & obj, std::vector<double> params = {8.7})
     {
-        const double maxd2 = params[0] * params[0];
-        for(const auto & p : obj.particles){
-            if(pvars::semantic_type(p) != 2) continue;
+        if (params.size() != 1)
+            throw std::invalid_argument(
+                "michel_in_range requires exactly one parameter: distance threshold to the parent muon."
+            );
 
-            for(const auto & q : obj.particles){
-                if(pvars::pid(q) != pvars::kMuon) continue;
-                if(!pvars::primary_classification(q)) continue;
-                double distance2 = std::pow(pvars::start_x(p) - pvars::end_x(q), 2) +
-                                   std::pow(pvars::start_y(p) - pvars::end_y(q), 2) +
-                                   std::pow(pvars::start_z(p) - pvars::end_z(q), 2);
-                if(distance2 < maxd2) return true;
-            }
-        }
-        return false;
+        auto idx = find_michel_muon_index(obj, params[0]);
+        return idx.has_value();
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Both, michel_in_range, michel_in_range);
 
@@ -582,14 +609,23 @@ namespace cuts
      * @return true if the interaction has a Michel electron that satisfies the criteria.
     */
     template<class T>
-    bool michel_size(const T & obj, std::vector<double> params={7.0,})
+    bool michel_size(const T & obj, std::vector<double> params={7.0, 8.7})
     {
-        std::pair michel_muon_ids = vars::michel_muon_index(obj);
-        const auto & p = obj.particles[michel_muon_ids.first];
-        if(pcuts::size_cut(p, params))
-            return true;
-        else
+        if (params.size() < 2)
+            throw std::invalid_argument(
+                "michel_size expects at least two parameters: size threshold, distance threshold."
+            );
+
+        double size_thr   = params[0];
+        double dist_thr   = params[1];
+
+        auto idx = find_michel_muon_index(obj, dist_thr);
+        if (!idx)
             return false;
+
+        const auto& p = obj.particles[idx->first];  // Michel
+        // assuming pcuts::size_cut(p, {size_thr}) or similar
+        return pcuts::size_cut(p, std::vector<double>{size_thr});
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Both, michel_size, michel_size);
 
@@ -600,15 +636,23 @@ namespace cuts
      * @return true if the interaction has a Michel electron that satisfies the criteria.
     */
     template<class T>
-    bool is_michel_pdg(const T & obj, std::vector<double> params={11,})
+    bool is_michel_pdg(const T & obj, std::vector<double> params={11.0, 8.7})
     {
-        std::pair michel_muon_ids = vars::michel_muon_index(obj);
-        const auto & p = obj.particles[michel_muon_ids.first];
-        if(pvars::pdg(p, params) == params[0])
-            return true;
-        else
+        if (params.size() < 2)
+            throw std::invalid_argument(
+                "is_michel_pdg expects at least two parameters: Michel pdg, distance threshold."
+            );
+
+        int    target_pdg = static_cast<int>(params[0]);
+        double dist_thr   = params[1];
+
+        auto idx = find_michel_muon_index(obj, dist_thr);
+        if (!idx)
             return false;
+
+        const auto& p = obj.particles[idx->first];  // Michel
+        return pvars::pdg(p) == target_pdg;
     }
-    REGISTER_CUT_SCOPE(RegistrationScope::Both, is_michel_pdg, is_michel_pdg);
+    REGISTER_CUT_SCOPE(RegistrationScope::True, is_michel_pdg, is_michel_pdg);
 }
 #endif

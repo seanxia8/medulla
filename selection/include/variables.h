@@ -854,39 +854,5 @@ namespace vars
     }
     REGISTER_VAR_SCOPE(RegistrationScope::Both, leading_shower_vertex_gap, leading_shower_vertex_gap);
 
-
-    /**
-     * @brief Variable for the index of the michel electron that created by a primary muon
-     * @tparam T the type of interaction (true or reco).
-     * @param obj the interaction to apply the variable on.
-     * @return the index the particle.
-     */
-     template<class T>
-     std::pair<int, int> michel_muon_index(const T & obj, std::vector<double>& params={8.7})
-     {
-         if(params.size() != 1)
-            throw std::invalid_argument("michel_index requires exactly one parameter: the distance threshold to the parent muon.");
-
-         double maxd2 = params[0]*params[0];
-         const auto & parts = obj.particles;
-         for (size_t i(0); i<parts.size(); ++i)
-         {
-            const auto & p = parts[i];
-            if(pvars::semantic_type(p) != 2) continue;
-            for(size_t j(0); j<parts.size(); ++j){
-                if(i==j) continue;
-                const auto & q = parts[j];
-                if(pvars::pid(q) != pvars::kMuon) continue;
-                if(!pvars::primary_classification(q)) continue;
-                double distance2 = std::pow(pvars::start_x(p) - pvars::end_x(q), 2) +
-                                   std::pow(pvars::start_y(p) - pvars::end_y(q), 2) +
-                                   std::pow(pvars::start_z(p) - pvars::end_z(q), 2);
-                if(distance2 < maxd2)
-                    return {static_cast<int>(i), static_cast<int>(j)};
-            }
-        }
-        return {-1, -1};
-     }
-     REGISTER_VAR_SCOPE(RegistrationScope::Both, michel_muon_index, michel_muon_index);
 }
 #endif // VARIABLES_H
