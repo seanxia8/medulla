@@ -262,13 +262,13 @@ NamedSpillMultiVar construct(const std::vector<cfg::ConfigurationTable> & cuts,
                 std::string full_name = "true_" + var.get_string_field("selector") + "_" + var_name;
                 std::vector<double> selectorPars;
                 if (var.has_field("selector_parameters")) {
-                    selectorPars = var.get<std::vector<double>>("selector_parameters");
+                    selectorPars = var.get_double_vector("selector_parameters");
                 }
                 // Retrieve the selector function.
                 std::string selector_name = "true_" + var.get_string_field("selector");
                 auto selector_factory = SelectorFactoryRegistry<TType>::instance().get(selector_name);
                 //auto selector = selector_factory(std::vector<double>{});
-                auto selector = selector_factor(selectorPars);
+                auto selector = selector_factory(selectorPars);
                                 
                 // Retrieve the particle-level variable function.
                 var_name = "true_particle_" + var_name;
@@ -314,7 +314,7 @@ NamedSpillMultiVar construct(const std::vector<cfg::ConfigurationTable> & cuts,
                 std::string full_name = "reco_" + var.get_string_field("selector") + "_" + var_name;
                 std::vector<double> selectorPars;
                 if (var.has_field("selector_parameters")) {
-                    selectorPars = var.get<std::vector<double>>("selector_parameters");
+                    selectorPars = var.get_double_vector("selector_parameters");
                 }
                 // Retrieve the selector function.
                 std::string selector_name = "reco_" + var.get_string_field("selector");
