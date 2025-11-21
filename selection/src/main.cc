@@ -207,7 +207,11 @@ int main(int argc, char * argv[])
                         def.particle_cuts.begin(), def.particle_cuts.end(),
                         [&particles](const auto & pc)
                         {
-                            for (const auto & p : particles) { if (pc(p)) return true; }
+                            for (const auto & p : particles)
+                            {
+                                if (pc(p)) return true;
+                            }
+                            return false;
                         }
                     );
 

@@ -6,7 +6,7 @@ primfn = "default_primary_classification"
 [[category]] # 0 : Cosmic mu- to e-
 cuts = [
     { name = "!neutrino" },
-    { name = "is_michel_pdg",   parameter = [11.0, 8.7] },
+    { name = "is_michel_pdg",   parameters = [11.0, 8.7] },
 ]
 
 [[category]] # 1 : Cosmic mu- to e-
@@ -42,8 +42,8 @@ disable = false
 
 [[tree]]
 name = "selected"
-sim_only = false
-mode = "reco"
+sim_only = true
+mode = "true"
 cut = [
     {name = "!valid_flashmatch", type = "reco"},
     {name = "michel_in_range",   type = "reco", parameters = [8.7]},
@@ -51,6 +51,7 @@ cut = [
 ]
 branch = [
     {name = "neutrino_id",   type = "true"},
+    {name = "category",      tyep = "true"},
     {name = "semantic_type", type = "both_particle", selector = "target_michel"},
     {name = "iou",           type = "both_particle", selector = "target_michel"},
     {name = "ke",            type = "both_particle", selector = "target_michel"},
@@ -68,6 +69,7 @@ cut = [
 ]
 branch = [
     {name = "neutrino_id",   type = "true"},
+    {name = "category",      tyep = "true"},
     {name = "semantic_type", type = "both_particle", selector = "target_michel"},
     {name = "iou",           type = "both_particle", selector = "target_michel"},
     {name = "ke",            type = "both_particle", selector = "target_michel"},
