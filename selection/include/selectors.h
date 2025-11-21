@@ -341,7 +341,7 @@ namespace selectors
     template <class T>
     size_t target_michel(const T & obj)
     {
-        auto index = utilities::find_michel_muon_index(obj));
+        auto index = utilities::find_michel_muon_index(obj);
         if (!index)
             return kNoMatch;
         return index->first;
