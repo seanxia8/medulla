@@ -480,7 +480,7 @@ NamedSpillMultiVar construct(const std::vector<cfg::ConfigurationTable> & cuts,
                 std::string selector_name = "reco_" + var.get_string_field("selector");
                 auto selector_factory = SelectorFactoryRegistry<RType>::instance().get(selector_name);
                 //auto selector = selector_factory(std::vector<double>{});
-                selector = selector_factory(selectorPars);
+                auto selector = selector_factory(selectorPars);
 
                 // Retrieve the particle-level variable function.
                 var_name = "reco_particle_" + var_name;
