@@ -42,8 +42,8 @@ disable = false
 
 [[tree]]
 name = "selected"
-sim_only = true
-mode = "true"
+sim_only = false
+mode = "reco"
 cut = [
     {name = "!valid_flashmatch", type = "reco"},
     {name = "michel_in_range",   type = "reco", parameters = [8.7]},
@@ -60,8 +60,8 @@ branch = [
 
 [[tree]]
 name = "signal"
-sim_only = false
-mode = "reco"
+sim_only = true
+mode = "true"
 cut = [
     {name = "!valid_flashmatch", type = "reco"},
     {name = "michel_in_range",   type = "true", parameters = [8.7]},
