@@ -339,9 +339,13 @@ namespace selectors
      * @return the index of the leading particle (highest KE).
      */
     template <class T>
-    size_t target_michel(const T & obj)
+    size_t target_michel(const T & obj, std::vector<double> params={8.7})
     {
-        auto index = utilities::find_michel_muon_index(obj);
+        if (params.size() != 1)
+            throw std::invalid_argument(
+                "target_michel requires exactly one parameter: distance threshold to the parent muon."
+            );
+        auto index = utilities::find_michel_muon_index(obj, params[0]);
         if (!index)
             return kNoMatch;
         return index->first;

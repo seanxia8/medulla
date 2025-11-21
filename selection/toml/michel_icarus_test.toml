@@ -36,7 +36,7 @@ cuts = [
 
 [[sample]]
 name = "nominal"
-path = "/pnfs/icarus/persistent/users/mueller/production/simulation/nominal/input*.flat.root"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/nominal/input000.flat.root"
 ismc = true
 disable = false
 
@@ -52,10 +52,10 @@ cut = [
 branch = [
     {name = "neutrino_id",   type = "true"},
     {name = "category",      type = "true"},
-    {name = "semantic_type", type = "both_particle", selector = "target_michel"},
-    {name = "iou",           type = "both_particle", selector = "target_michel"},
-    {name = "ke",            type = "both_particle", selector = "target_michel"},
-    {name = "calo_ke",       type = "reco_particle", selector = "target_michel"},
+    {name = "semantic_type", type = "both_particle", selector = "target_michel", selector_parameters = [8.7]},
+    {name = "iou",           type = "both_particle", selector = "target_michel", selector_parameters = [8.7]},
+    {name = "ke",            type = "both_particle", selector = "target_michel", selector_parameters = [8.7]},
+    {name = "calo_ke",       type = "reco_particle", selector = "target_michel", selector_parameters = [8.7]},
 ]
 
 [[tree]]
@@ -70,8 +70,8 @@ cut = [
 branch = [
     {name = "neutrino_id",   type = "true"},
     {name = "category",      type = "true"},
-    {name = "semantic_type", type = "both_particle", selector = "target_michel"},
-    {name = "iou",           type = "both_particle", selector = "target_michel"},
-    {name = "ke",            type = "both_particle", selector = "target_michel"},
-    {name = "calo_ke",       type = "reco_particle", selector = "target_michel"},
+    {name = "semantic_type", type = "both_particle", selector = "target_michel", selector_parameters = [8.7]},
+    {name = "iou",           type = "both_particle", selector = "target_michel", selector_parameters = [8.7]},
+    {name = "ke",            type = "both_particle", selector = "target_michel", selector_parameters = [8.7]},
+    {name = "calo_ke",       type = "reco_particle", selector = "target_michel", selector_parameters = [8.7]},
 ]
