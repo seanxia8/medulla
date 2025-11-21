@@ -6,27 +6,27 @@ primfn = "default_primary_classification"
 [[category]] # 0 : Cosmic mu- to e-
 cuts = [
     { name = "!neutrino" },
-    { name = "is_michel_pdg", parameter = [11, 8.7] },
+    { name = "is_michel_pdg", parameter = [11.0, 8.7] },
 ]
 
 [[category]] # 1 : Cosmic mu- to e-
 cuts = [
     { name = "!neutrino" },
-    { name = "is_michel_pdg", parameters = [-11, 8.7] },
+    { name = "is_michel_pdg", parameters = [-11.0, 8.7] },
 ]
 
 [[category]] # 2 : offbeam gamma
 cuts = [
     { name = "!neutrino" },
-    { name = "is_michel_pdg",   parameters = [22, 8.7]  },
+    { name = "is_michel_pdg",   parameters = [22.0, 8.7]  },
 ]
 
 [[category]] # 3 : other cosmics
 cuts = [
     { name = "!neutrino" },
-    { name = "!is_michel_pdg",  parameters = [11, 8.7]  },
-    { name = "!is_michel_pdg",  parameters = [-11, 8.7] },
-    { name = "!is_michel_pdg",  parameters = [22, 8.7]  },
+    { name = "!is_michel_pdg",  parameters = [11.0, 8.7]  },
+    { name = "!is_michel_pdg",  parameters = [-11.0, 8.7] },
+    { name = "!is_michel_pdg",  parameters = [22.0, 8.7]  },
 ]
 
 [[category]] # 4 : beam
@@ -47,7 +47,7 @@ mode = "reco"
 cut = [
     {name = "!valid_flashmatch", type = "reco"},
     {name = "michel_in_range",   type = "reco", parameters = [8.7]},
-    {name = "michel_size",       type = "reco", parameters = [7, 8.7]},
+    {name = "michel_size",       type = "reco", parameters = [7.0, 8.7]},
 ]
 branch = [
     {name = "neutrino_id",   type = "true"},
@@ -64,7 +64,7 @@ mode = "reco"
 cut = [
     {name = "!valid_flashmatch", type = "reco"},
     {name = "michel_in_range",   type = "true", parameters = [8.7]},
-    {name = "michel_size",       type = "true", parameters = [7, 8.7]},
+    {name = "michel_size",       type = "true", parameters = [7.0, 8.7]},
 ]
 branch = [
     {name = "neutrino_id",   type = "true"},
