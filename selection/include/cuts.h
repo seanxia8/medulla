@@ -590,7 +590,6 @@ namespace cuts
             return false;
 
         const auto& p = obj.particles[idx->first];  // Michel
-        // assuming pcuts::size_cut(p, {size_thr}) or similar
         return pcuts::size_cut(p, std::vector<double>{size_thr});
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Both, michel_size, michel_size);
