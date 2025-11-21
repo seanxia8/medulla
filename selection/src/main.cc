@@ -200,7 +200,7 @@ int main(int argc, char * argv[])
                         [&e](const auto & f) { return f(e); }
                     );
 
-                    if def.particle_cuts.empty()
+                    if (def.particle_cuts.empty())
                        return interaction_ok;
 
                     if (!interaction_ok)
