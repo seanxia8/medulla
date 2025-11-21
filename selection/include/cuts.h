@@ -16,6 +16,7 @@
 
 #include "utilities.h"
 #include "framework.h"
+#include "variables.h"
 
 /**
  * @namespace cuts

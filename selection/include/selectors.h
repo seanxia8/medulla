@@ -340,7 +340,7 @@ namespace selectors
     size_t target_michel(const T & obj)
     {
         std::pair michel_muon_ids = vars::michel_muon_index(obj);
-        return static_cast<size_t>michel_muon_ids.first;
+        return static_cast<size_t>(michel_muon_ids.first);
     }
     REGISTER_SELECTOR(target_michel, target_michel);
 

@@ -868,12 +868,12 @@ namespace vars
             throw std::invalid_argument("michel_index requires exactly one parameter: the distance threshold to the parent muon.");
 
          double maxd2 = params[0]*params[0];
-         const auto & parts = obj.particles
-         for (size_t i=0; i<parts.size(); i++)
+         const auto & parts = obj.particles;
+         for (size_t i(0); i<parts.size(); ++i)
          {
             const auto & p = parts[i];
             if(pvars::semantic_type(p) != 2) continue;
-            for(size_t j=0; j<parts.size(); j++){
+            for(size_t j(0); j<parts.size(); ++j){
                 if(i==j) continue;
                 const auto & q = parts[j];
                 if(pvars::pid(q) != pvars::kMuon) continue;
