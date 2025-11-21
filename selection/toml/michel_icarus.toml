@@ -191,7 +191,7 @@ mode = "reco"
 cut = [
     {name = "!valid_flashmatch", type = "reco"},
     {name = "michel_in_range",   type = "true", parameters = [8.7]},
-    {name = "size_cut",          type = "true", parameters = [7, 8.7]},
+    {name = "michel_size",       type = "true", parameters = [7, 8.7]},
 ]
 branch = [
     {name = "neutrino_id",   type = "true"},
