@@ -166,5 +166,38 @@ namespace utilities
         return first_flash_index;
     }
 
+    template <class T>
+    std::optional<std::pair<size_t, size_t>> find_michel_muon_index(const T& obj, double max_dist = 8.7)
+    {
+        const double maxd2 = max_dist * max_dist;
+        const auto& parts = obj.particles;
+
+        for (size_t i = 0; i < parts.size(); ++i)
+        {
+            const auto& p = parts[i];
+            if (pvars::semantic_type(p) != 2)
+                continue;
+
+            for (size_t j = 0; j < parts.size(); ++j)
+            {
+                if (i == j) continue;
+
+                const auto& q = parts[j];
+                if (pvars::pid(q) != pvars::kMuon) continue;
+                if (!pvars::primary_classification(q)) continue;
+
+                const double dx = pvars::start_x(p) - pvars::end_x(q);
+                const double dy = pvars::start_y(p) - pvars::end_y(q);
+                const double dz = pvars::start_z(p) - pvars::end_z(q);
+                const double d2 = dx*dx + dy*dy + dz*dz;
+
+                if (d2 < maxd2)
+                    return std::make_pair(i, j);
+            }
+        }
+
+        return std::nullopt;
+    }
+
 }
 #endif // UTILITIES_H

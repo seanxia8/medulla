@@ -16,7 +16,6 @@
 
 #include "utilities.h"
 #include "framework.h"
-#include "variables.h"
 
 /**
  * @namespace cuts
@@ -550,39 +549,6 @@ namespace cuts
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Both, single_michel, single_michel);
 
-
-    template <class T>
-    std::optional<std::pair<size_t, size_t>> find_michel_muon_index(const T& obj, double max_dist = 8.7)
-    {
-        const double maxd2 = max_dist * max_dist;
-        const auto& parts = obj.particles;
-
-        for (size_t i = 0; i < parts.size(); ++i)
-        {
-            const auto& p = parts[i];
-            if (pvars::semantic_type(p) != 2)
-                continue;
-
-            for (size_t j = 0; j < parts.size(); ++j)
-            {
-                if (i == j) continue;
-
-                const auto& q = parts[j];
-                if (pvars::pid(q) != pvars::kMuon) continue;
-                if (!pvars::primary_classification(q)) continue;
-
-                const double dx = pvars::start_x(p) - pvars::end_x(q);
-                const double dy = pvars::start_y(p) - pvars::end_y(q);
-                const double dz = pvars::start_z(p) - pvars::end_z(q);
-                const double d2 = dx*dx + dy*dy + dz*dz;
-
-                if (d2 < maxd2)
-                    return std::make_pair(i, j);
-            }
-        }
-
-        return std::nullopt;
-    }
     /**
      * @brief Cut to select interactions with a Michel electron within certain range from a primary muon.
      * @tparam T the type of interaction (true or reco).
@@ -597,7 +563,7 @@ namespace cuts
                 "michel_in_range requires exactly one parameter: distance threshold to the parent muon."
             );
 
-        auto idx = find_michel_muon_index(obj, params[0]);
+        auto idx = utilities::find_michel_muon_index(obj, params[0]);
         return idx.has_value();
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Both, michel_in_range, michel_in_range);
@@ -619,7 +585,7 @@ namespace cuts
         double size_thr   = params[0];
         double dist_thr   = params[1];
 
-        auto idx = find_michel_muon_index(obj, dist_thr);
+        auto idx = utilities::find_michel_muon_index(obj, dist_thr);
         if (!idx)
             return false;
 
@@ -646,7 +612,7 @@ namespace cuts
         int    target_pdg = static_cast<int>(params[0]);
         double dist_thr   = params[1];
 
-        auto idx = find_michel_muon_index(obj, dist_thr);
+        auto idx = utilities::find_michel_muon_index(obj, dist_thr);
         if (!idx)
             return false;
 
