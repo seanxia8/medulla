@@ -51,7 +51,7 @@ cut = [
 ]
 branch = [
     {name = "neutrino_id",   type = "true"},
-    {name = "category",      tyep = "true"},
+    {name = "category",      type = "true"},
     {name = "semantic_type", type = "both_particle", selector = "target_michel"},
     {name = "iou",           type = "both_particle", selector = "target_michel"},
     {name = "ke",            type = "both_particle", selector = "target_michel"},
@@ -69,7 +69,7 @@ cut = [
 ]
 branch = [
     {name = "neutrino_id",   type = "true"},
-    {name = "category",      tyep = "true"},
+    {name = "category",      type = "true"},
     {name = "semantic_type", type = "both_particle", selector = "target_michel"},
     {name = "iou",           type = "both_particle", selector = "target_michel"},
     {name = "ke",            type = "both_particle", selector = "target_michel"},
