@@ -549,7 +549,7 @@ namespace cuts
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Both, single_michel, single_michel);
     /**
-     * @brief Cut to select interactions with a Michel electron within certain range from a muon.
+     * @brief Cut to select interactions with a Michel electron within certain range from a primary muon.
      * @tparam T the type of interaction (true or reco).
      * @param obj the interaction to select on.
      * @return true if the interaction has a Michel electron that satisfies the criteria.
@@ -563,6 +563,7 @@ namespace cuts
 
             for(const auto & q : obj.particles){
                 if(pvars::pid(q) != pvars::kMuon) continue;
+                if(!pvars::primary_classification(q)) continue;
                 double distance2 = std::pow(pvars::start_x(p) - pvars::end_x(q), 2) +
                                    std::pow(pvars::start_y(p) - pvars::end_y(q), 2) +
                                    std::pow(pvars::start_z(p) - pvars::end_z(q), 2);
@@ -572,5 +573,41 @@ namespace cuts
         return false;
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Both, michel_in_range, michel_in_range);
+
+    /**
+     * @brief Cut to select Michel electron above a voxel threshold.
+     * @tparam T the type of interaction (true or reco).
+     * @param obj the interaction to select on.
+     * @return true if the interaction has a Michel electron that satisfies the criteria.
+    */
+    template<class T>
+    bool michel_size(const T & obj, std::vector<double> params={7.0,})
+    {
+        std::pair michel_muon_ids = vars::michel_muon_index(obj);
+        const auto & p = obj.particles[michel_muon_ids.first];
+        if(pcuts::size_cut(p, params))
+            return true;
+        else
+            return false;
+    }
+    REGISTER_CUT_SCOPE(RegistrationScope::Both, michel_size, michel_size);
+
+    /**
+     * @brief Cut to select Michel electron according to the pdg code.
+     * @tparam T the type of interaction (true or reco).
+     * @param obj the interaction to select on.
+     * @return true if the interaction has a Michel electron that satisfies the criteria.
+    */
+    template<class T>
+    bool is_michel_pdg(const T & obj, std::vector<double> params={11,})
+    {
+        std::pair michel_muon_ids = vars::michel_muon_index(obj);
+        const auto & p = obj.particles[michel_muon_ids.first];
+        if(pvars::pdg(p, params) == params[0])
+            return true;
+        else
+            return false;
+    }
+    REGISTER_CUT_SCOPE(RegistrationScope::Both, is_michel_pdg, is_michel_pdg);
 }
 #endif

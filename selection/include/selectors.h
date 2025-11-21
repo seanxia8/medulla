@@ -328,5 +328,21 @@ namespace selectors
         return leading_particle_index(obj, pvars::kProton);
     }
     REGISTER_SELECTOR(leading_proton, leading_proton);
+
+    /**
+     * @brief Finds the index of the michel electron given its parent muon is a primary particle and is within the range threshold.
+     * @tparam T the type of interaction (true or reco).
+     * @param obj the interaction to operate on.
+     * @param pid of the particle type.
+     * @return the index of the leading particle (highest KE).
+     */
+    template <class T>
+    size_t target_michel(const T & obj)
+    {
+        std::pair michel_muon_ids = vars::michel_muon_index(obj);
+        return static_cast<size_t>michel_muon_ids.first;
+    }
+    REGISTER_SELECTOR(target_michel, target_michel);
+
 }
 #endif // SELECTORS_H
