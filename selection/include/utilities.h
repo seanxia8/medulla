@@ -218,8 +218,7 @@ namespace utilities
         if (!muon_index.has_value()){
             return std::nullopt;
         }
-        bool already_matched = false;
-        size_t i_mich = -1; // Michel index placeholder
+        std::vector<size_t> i_mich; // Michel index vertex
         for (const auto& mi : michel_indices.value())
         {
             const auto& p = obj.particles[mi]; // Michel
@@ -229,20 +228,12 @@ namespace utilities
             auto muon_id = int(pvars::interaction_id(q));
 
             if (mich_id == muon_id){
-                if (!already_matched){
-                    already_matched = true;
-                    i_mich = mi;
-                }
-                else {
-                    throw std::runtime_error(
-                        "Found multiple Michel-muon pairs in find_michel_muon_pair."
-                    );
-                }
+                i_mich.push_back(mi);
             }
         }
 
-        if (already_matched){
-            return std::make_pair(i_mich, muon_index.value());
+        if (len(i_mich) == 1){
+            return std::make_pair(i_mich[0], muon_index.value());
         }
         return std::nullopt;
     }
