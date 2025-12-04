@@ -5,31 +5,53 @@ primfn = "default_primary_classification"
 
 [[category]] # 0 : Cosmic mu- to e-
 cuts = [
-    { name = "!neutrino" },
-    { name = "is_michel_pdg",   parameters = [11.0, 8.7] },
+    { name = "!neutrino"  },
+    { name = "!no_michel" },
+    { name = "!no_muon"   },
+    { name = "michel_in_range",   parameters = [8.7] },
+    { name = "is_michel_pdg",     parameters = [11.0, 8.7] },
 ]
 
 [[category]] # 1 : Cosmic mu- to e-
 cuts = [
     { name = "!neutrino" },
+    { name = "!no_michel" },
+    { name = "!no_muon"   },
+    { name = "michel_in_range",   parameters = [8.7] },
     { name = "is_michel_pdg",   parameters = [-11.0, 8.7] },
 ]
 
 [[category]] # 2 : offbeam gamma
 cuts = [
     { name = "!neutrino" },
+    { name = "!no_michel" },
+    { name = "!no_muon"   },
+    { name = "michel_in_range",   parameters = [8.7] },
     { name = "is_michel_pdg",   parameters = [22.0, 8.7]  },
 ]
 
-[[category]] # 3 : other cosmics
+[[category]] # 3 : true primary out of range
 cuts = [
     { name = "!neutrino" },
-    { name = "!is_michel_pdg",  parameters = [11.0, 8.7]  },
-    { name = "!is_michel_pdg",  parameters = [-11.0, 8.7] },
-    { name = "!is_michel_pdg",  parameters = [22.0, 8.7]  },
+    { name = "!no_michel" },
+    { name = "!no_muon"   },
+    { name = "!michel_in_range",   parameters = [8.7] },
 ]
 
-[[category]] # 4 : beam
+[[category]] # 4 : no true primary muon
+cuts = [
+    { name = "!neutrino" },
+    { name = "!no_michel" },
+    { name = "no_muon"   },
+]
+
+[[category]] # 5 : no true michel
+cuts = [
+    { name = "!neutrino" },
+    { name = "no_michel" },
+]
+
+[[category]] # 6 : beam
 cuts = [
     { name = "neutrino" },
 ]
@@ -56,6 +78,7 @@ branch = [
     {name = "iou",           type = "both_particle", selector = "target_michel", selector_parameters = [8.7]},
     {name = "ke",            type = "both_particle", selector = "target_michel", selector_parameters = [8.7]},
     {name = "calo_ke",       type = "reco_particle", selector = "target_michel", selector_parameters = [8.7]},
+    {name = "pdg",           type = "true_particle", selector = "target_michel", selector_parameters = [8.7]},
 ]
 
 [[tree]]
@@ -74,4 +97,5 @@ branch = [
     {name = "iou",           type = "both_particle", selector = "target_michel", selector_parameters = [8.7]},
     {name = "ke",            type = "both_particle", selector = "target_michel", selector_parameters = [8.7]},
     {name = "calo_ke",       type = "reco_particle", selector = "target_michel", selector_parameters = [8.7]},
+    {name = "pdg",           type = "true_particle", selector = "target_michel", selector_parameters = [8.7]},
 ]

@@ -167,35 +167,73 @@ namespace utilities
     }
 
     template <class T>
-    std::optional<std::pair<size_t, size_t>> find_michel_muon_index(const T& obj, double max_dist = 8.7)
+    std::optional<std::vector<size_t>> find_michel_index(const T& obj)
     {
-        const double maxd2 = max_dist * max_dist;
         const auto& parts = obj.particles;
-
+        std::vector<size_t> michel_indices;
         for (size_t i = 0; i < parts.size(); ++i)
         {
             const auto& p = parts[i];
             if (pvars::semantic_type(p) != 2)
                 continue;
 
-            for (size_t j = 0; j < parts.size(); ++j)
-            {
-                if (i == j) continue;
+            michel_indices.push_back(i);
+        }
+        if (michel_indices.empty())
+            return std::nullopt;
 
-                const auto& q = parts[j];
-                if (pvars::pid(q) != pvars::kMuon) continue;
-                if (!pvars::primary_classification(q)) continue;
+        return michel_indices;
+    }
 
-                const double dx = pvars::start_x(p) - pvars::end_x(q);
-                const double dy = pvars::start_y(p) - pvars::end_y(q);
-                const double dz = pvars::start_z(p) - pvars::end_z(q);
-                const double d2 = dx*dx + dy*dy + dz*dz;
+    template <class T>
+    std::optional<size_t> find_primary_muon_index(const T& obj)
+    {
+        const auto& parts = obj.particles;
 
-                if (d2 < maxd2)
-                    return std::make_pair(i, j);
+        for (size_t i = 0; i < parts.size(); ++i)
+        {
+            const auto& p = parts[i];
+            if (pvars::pid(p) == pvars::kMuon && pvars::primary_classification(p))
+                return i;
+        }
+
+        return std::nullopt;
+    }
+
+
+    template <class T>
+    std::optional<std::pair<size_t, size_t>> find_michel_muon_pair(const T& obj, double max_dist = 8.7)
+    {
+        const double maxd2 = max_dist * max_dist;
+        size_t i_mich = -1; // Michel index placeholder
+        auto michel_indices = find_michel_index(obj);
+        if (!michel_indices.has_values()){
+            return std::nullopt;
+        }
+        auto muon_index = find_primary_muon_index(obj);
+        if (!muon_index.has_value()){
+            return std::nullopt;
+        }
+
+        for const auto& mi : michel_indices.value())
+        {
+            const auto& p = obj.particles[mi]; // Michel
+            const auto& q = obj.particles[muon_index.value()]; // Muon
+
+            const double dx = pvars::start_x(p) - pvars::end_x(q);
+            const double dy = pvars::start_y(p) - pvars::end_y(q);
+            const double dz = pvars::start_z(p) - pvars::end_z(q);
+            const double d2 = dx*dx + dy*dy + dz*dz;
+
+            if (d2 < maxd2){
+                i_mich = mi;
+                maxd2 = d2;
             }
         }
 
+        if (i_mich != -1){
+            return std::make_pair(i_mich, muon_index.value());
+        }
         return std::nullopt;
     }
 

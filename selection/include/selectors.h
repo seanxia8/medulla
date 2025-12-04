@@ -331,12 +331,11 @@ namespace selectors
     REGISTER_SELECTOR(leading_proton, leading_proton);
 
     /**
-     * Currently unfinished implementation, as the distance threshold is hardcoded in utilities.
      * @brief Finds the index of the michel electron given its parent muon is a primary particle and is within the range threshold.
      * @tparam T the type of interaction (true or reco).
      * @param obj the interaction to operate on.
      * @param pid of the particle type.
-     * @return the index of the leading particle (highest KE).
+     * @return the index of the particle.
      */
     template <class T>
     size_t target_michel(const T & obj, std::vector<double> params={8.7})
@@ -351,6 +350,27 @@ namespace selectors
         return index->first;
     }
     REGISTER_SELECTOR(target_michel, target_michel);
+
+    /**
+     * @brief Finds the index of the michel electron parent muon given it is a primary particle and is within the range threshold.
+     * @tparam T the type of interaction (true or reco).
+     * @param obj the interaction to operate on.
+     * @param pid of the particle type.
+     * @return the index of the particle.
+     */
+    template <class T>
+    size_t target_michel_parernt(const T & obj, std::vector<double> params={8.7})
+    {
+        if (params.size() != 1)
+            throw std::invalid_argument(
+                "target_michel requires exactly one parameter: distance threshold to the parent muon."
+            );
+        auto index = utilities::find_michel_muon_index(obj, params[0]);
+        if (!index)
+            return kNoMatch;
+        return index->second;
+    }
+    REGISTER_SELECTOR(target_michel_parent, target_michel_parent);
 
 }
 #endif // SELECTORS_H

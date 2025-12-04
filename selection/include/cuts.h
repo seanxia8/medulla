@@ -549,6 +549,22 @@ namespace cuts
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Both, single_michel, single_michel);
 
+    template<class T>
+    bool no_michel(const T & obj)
+    {
+        auto indx = utilities::find_michel(obj);
+        return !indx.has_value();
+    }
+    REGISTER_CUT_SCOPE(RegistrationScope::Both, no_michel, no_michel);
+
+    template<class T>
+    bool no_primary_muon(const T & obj)
+    {
+        auto indx = utilities::find_primary_muon(obj);
+        return !indx.has_value();
+    }
+    REGISTER_CUT_SCOPE(RegistrationScope::Both, no_primary_muon, no_primary_muon);
+
     /**
      * @brief Cut to select interactions with a Michel electron within certain range from a primary muon.
      * @tparam T the type of interaction (true or reco).
@@ -563,7 +579,7 @@ namespace cuts
                 "michel_in_range requires exactly one parameter: distance threshold to the parent muon."
             );
 
-        auto idx = utilities::find_michel_muon_index(obj, params[0]);
+        auto idx = utilities::find_michel_muon_pair(obj, params[0]);
         return idx.has_value();
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Both, michel_in_range, michel_in_range);
@@ -585,8 +601,8 @@ namespace cuts
         double size_thr   = params[0];
         double dist_thr   = params[1];
 
-        auto idx = utilities::find_michel_muon_index(obj, dist_thr);
-        if (!idx)
+        auto idx = utilities::find_michel_muon_pair(obj, dist_thr);
+        if (!idx.has_value())
             return false;
 
         const auto& p = obj.particles[idx->first];  // Michel
@@ -611,11 +627,14 @@ namespace cuts
         int    target_pdg = static_cast<int>(params[0]);
         double dist_thr   = params[1];
 
-        auto idx = utilities::find_michel_muon_index(obj, dist_thr);
+        auto idx = utilities::find_michel_muon_pair(obj, dist_thr);
         if (!idx)
             return false;
 
         const auto& p = obj.particles[idx->first];  // Michel
+        if (pvars::pdg(p) != 11 && pvars::pdg(p) != -11 && pvars::pdg(p) != -22){
+            std::cout << "Michel PDG: " << pvars::pdg(p) << " " << "Target PDG: " << target_pdg << std::endl;
+        }
         return pvars::pdg(p) == target_pdg;
     }
     REGISTER_CUT_SCOPE(RegistrationScope::True, is_michel_pdg, is_michel_pdg);
