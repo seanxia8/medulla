@@ -854,5 +854,28 @@ namespace vars
     }
     REGISTER_VAR_SCOPE(RegistrationScope::Both, leading_shower_vertex_gap, leading_shower_vertex_gap);
 
+    template<class T>
+    double selected_michel_muon_gap(const T & obj, std::vector<double> params={8.7})
+    {
+        if (params.size() < 2)
+            throw std::invalid_argument(
+                "is_michel_pdg expects at least two parameters: Michel pdg, distance threshold."
+            );
+        double par = params[0];
+        auto indx = utilities::find_michel_muon_pair(obj, par);
+        if (!indx.has_value())
+            return -1.0;
+        size_t i_mich = indx->first;
+        size_t i_muon = indx->second;
+        const auto & mich(obj.particles[i_mich]);
+        const auto & muon(obj.particles[i_muon]);
+        // Calculate the distance from the selected michel start point to the
+        // interaction vertex.
+        utilities::three_vector michel_start = {pvars::start_x(mich), pvars::start_y(mich), pvars::start_z(mich)};
+        utilities::three_vector muon_end = {pvars::end_x(muon), pvars::end_y(muon), pvars::end_z(muon)};
+        return utilities::magnitude(utilities::subtract(michel_start, muon_end));
+    }
+    REGISTER_VAR_SCOPE(RegistrationScope::Both, selected_michel_muon_gap, selected_michel_muon_gap);
+
 }
 #endif // VARIABLES_H
