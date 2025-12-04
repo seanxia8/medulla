@@ -218,7 +218,7 @@ namespace utilities
         if (!muon_index.has_value()){
             return std::nullopt;
         }
-        bool not_matched = true;
+        bool already_matched = false;
         size_t i_mich = -1; // Michel index placeholder
         for (const auto& mi : michel_indices.value())
         {
@@ -229,8 +229,8 @@ namespace utilities
             auto muon_id = int(pvars::interaction_id(q));
 
             if (mich_id == muon_id){
-                if (not_matched){
-                    not_matched = false;
+                if (!already_matched){
+                    already_matched = true;
                     i_mich = mi;
                 }
                 else {
@@ -241,7 +241,7 @@ namespace utilities
             }
         }
 
-        if (!not_matched){
+        if (already_matched){
             return std::make_pair(i_mich, muon_index.value());
         }
         return std::nullopt;
