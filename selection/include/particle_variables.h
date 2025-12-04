@@ -1050,7 +1050,7 @@ namespace pvars
      * @return the interaction id of the particle.
      */
     template<class T>
-    double interaction_id(const caf::SRParticleDLPProxy & p)
+    double interaction_id(const T & p)
     {
         return p.interaction_id;
     }
