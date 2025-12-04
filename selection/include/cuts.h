@@ -578,9 +578,26 @@ namespace cuts
             throw std::invalid_argument(
                 "michel_in_range requires exactly one parameter: distance threshold to the parent muon."
             );
+        const double maxd = params[0];
+        auto idx = utilities::find_michel_muon_pair(obj);
+        if (!idx.has_value())
+            return false;
 
-        auto idx = utilities::find_michel_muon_pair(obj, params[0]);
-        return idx.has_value();
+        auto imich = idx->first;
+        auto imuon = idx->second;
+
+
+        const auto& p = obj.particles[imich]; // Michel
+        const auto& q = obj.particles[imuon]; // Muon
+
+        utilities::three_vector michel_start = {pvars::start_x(p), pvars::start_y(p), pvars::start_z(p)};
+        utilities::three_vector muon_end = {pvars::end_x(q), pvars::end_y(q), pvars::end_z(q)};
+        double gap_d = utilities::magnitude(utilities::subtract(michel_start, muon_end));
+
+        if (gap_d < maxd){
+            return true;
+        }
+        return false;
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Both, michel_in_range, michel_in_range);
 
@@ -591,17 +608,15 @@ namespace cuts
      * @return true if the interaction has a Michel electron that satisfies the criteria.
     */
     template<class T>
-    bool michel_size(const T & obj, std::vector<double> params={7.0, 8.7})
+    bool michel_size(const T & obj, std::vector<double> params={7.0})
     {
-        if (params.size() < 2)
+        if (params.size() != 1)
             throw std::invalid_argument(
-                "michel_size expects at least two parameters: size threshold, distance threshold."
+                "michel_size expects one parameter: size threshold."
             );
 
         double size_thr   = params[0];
-        double dist_thr   = params[1];
-
-        auto idx = utilities::find_michel_muon_pair(obj, dist_thr);
+        auto idx = utilities::find_michel_muon_pair(obj);
         if (!idx.has_value())
             return false;
 
@@ -617,22 +632,20 @@ namespace cuts
      * @return true if the interaction has a Michel electron that satisfies the criteria.
     */
     template<class T>
-    bool is_michel_pdg(const T & obj, std::vector<double> params={11.0, 8.7})
+    bool is_michel_pdg(const T & obj, std::vector<double> params={11.0})
     {
-        if (params.size() < 2)
+        if (params.size() != 1)
             throw std::invalid_argument(
-                "is_michel_pdg expects at least two parameters: Michel pdg, distance threshold."
+                "is_michel_pdg expects at least two parameters: Michel pdg"
             );
 
         int    target_pdg = static_cast<int>(params[0]);
-        double dist_thr   = params[1];
-
-        auto idx = utilities::find_michel_muon_pair(obj, dist_thr);
+        auto idx = utilities::find_michel_muon_pair(obj);
         if (!idx)
             return false;
 
         const auto& p = obj.particles[idx->first];  // Michel
-        if (pvars::pdg(p) != 11 && pvars::pdg(p) != -11 && pvars::pdg(p) != -22){
+        if (pvars::pdg(p) != 11 && pvars::pdg(p) != -11 && pvars::pdg(p) != 22){
             std::cout << "Michel PDG: " << pvars::pdg(p) << " " << "Target PDG: " << target_pdg << std::endl;
         }
         return pvars::pdg(p) == target_pdg;

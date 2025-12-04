@@ -9,7 +9,7 @@ cuts = [
     { name = "!no_michel" },
     { name = "!no_primary_muon"   },
     { name = "michel_in_range",   parameters = [8.7] },
-    { name = "is_michel_pdg",     parameters = [11.0, 8.7] },
+    { name = "is_michel_pdg",     parameters = [11.0] },
 ]
 
 [[category]] # 1 : Cosmic mu- to e-
@@ -18,7 +18,7 @@ cuts = [
     { name = "!no_michel" },
     { name = "!no_primary_muon"   },
     { name = "michel_in_range",   parameters = [8.7] },
-    { name = "is_michel_pdg",     parameters = [-11.0, 8.7] },
+    { name = "is_michel_pdg",     parameters = [-11.0] },
 ]
 
 [[category]] # 2 : offbeam gamma
@@ -27,7 +27,7 @@ cuts = [
     { name = "!no_michel" },
     { name = "!no_primary_muon"   },
     { name = "michel_in_range",   parameters = [8.7] },
-    { name = "is_michel_pdg",     parameters = [22.0, 8.7]  },
+    { name = "is_michel_pdg",     parameters = [22.0]  },
 ]
 
 [[category]] # 3 : true primary out of range
@@ -69,28 +69,28 @@ mode = "reco"
 cut = [
     {name = "!valid_flashmatch", type = "reco"},
     {name = "michel_in_range",   type = "reco", parameters = [8.7]},
-    {name = "michel_size",       type = "reco", parameters = [7.0, 8.7]},
+    {name = "michel_size",       type = "reco", parameters = [7.0]},
 ]
 branch = [
     {name = "neutrino_id",   type = "true"},
     {name = "category",      type = "true"},
-    {name = "selected_michel_muon_gap", type = "both" , parameters = [8.7] },
+    {name = "selected_michel_muon_gap", type = "both" },
 
-    {name = "semantic_type", type = "both_particle", selector = "target_michel", selector_parameters = [8.7]},
-    {name = "iou",           type = "both_particle", selector = "target_michel", selector_parameters = [8.7]},
-    {name = "ke",            type = "both_particle", selector = "target_michel", selector_parameters = [8.7]},
-    {name = "calo_ke",       type = "reco_particle", selector = "target_michel", selector_parameters = [8.7]},
-    {name = "pdg",           type = "true_particle", selector = "target_michel", selector_parameters = [8.7]},
+    {name = "semantic_type", type = "both_particle", selector = "target_michel"},
+    {name = "iou",           type = "both_particle", selector = "target_michel"},
+    {name = "ke",            type = "both_particle", selector = "target_michel"},
+    {name = "calo_ke",       type = "reco_particle", selector = "target_michel"},
+    {name = "pdg",           type = "true_particle", selector = "target_michel"},
 
-    {name = "start_x",      type = "both_particle", selector = "target_michel", selector_parameters = [8.7] },
-    {name = "start_y",      type = "both_particle", selector = "target_michel", selector_parameters = [8.7] },
-    {name = "start_z",      type = "both_particle", selector = "target_michel", selector_parameters = [8.7] },
+    {name = "start_x",      type = "both_particle", selector = "target_michel" },
+    {name = "start_y",      type = "both_particle", selector = "target_michel" },
+    {name = "start_z",      type = "both_particle", selector = "target_michel" },
 
-    {name = "end_x",        type = "both_particle", selector = "target_michel_parent", selector_parameters = [8.7] },
-    {name = "end_y",        type = "both_particle", selector = "target_michel_parent", selector_parameters = [8.7] },
-    {name = "end_z",        type = "both_particle", selector = "target_michel_parent", selector_parameters = [8.7] },
+    {name = "end_x",        type = "both_particle", selector = "target_michel_parent" },
+    {name = "end_y",        type = "both_particle", selector = "target_michel_parent" },
+    {name = "end_z",        type = "both_particle", selector = "target_michel_parent" },
 
-    {name = "primary_softmax", type = "reco_particle", selector = "target_michel_parent", selector_parameters = [8.7] },
+    {name = "primary_softmax", type = "reco_particle", selector = "target_michel_parent" },
 ]
 
 [[tree]]
@@ -100,27 +100,27 @@ mode = "true"
 cut = [
     {name = "!valid_flashmatch", type = "reco"},
     {name = "michel_in_range",   type = "true", parameters = [8.7]},
-    {name = "michel_size",       type = "true", parameters = [7.0, 8.7]},
+    {name = "michel_size",       type = "true", parameters = [7.0]},
 ]
 branch = [
     {name = "neutrino_id",   type = "true"},
     {name = "category",      type = "true"},
-    {name = "selected_michel_muon_gap", type = "true" , parameters = [8.7] },
+    {name = "selected_michel_muon_gap", type = "true" },
 
-    {name = "semantic_type", type = "both_particle", selector = "target_michel", selector_parameters = [8.7]},
-    {name = "iou",           type = "both_particle", selector = "target_michel", selector_parameters = [8.7]},
-    {name = "ke",            type = "both_particle", selector = "target_michel", selector_parameters = [8.7]},
-    {name = "calo_ke",       type = "reco_particle", selector = "target_michel", selector_parameters = [8.7]},
-    {name = "pdg",           type = "true_particle", selector = "target_michel", selector_parameters = [8.7]},
+    {name = "semantic_type", type = "both_particle", selector = "target_michel" },
+    {name = "iou",           type = "both_particle", selector = "target_michel" },
+    {name = "ke",            type = "both_particle", selector = "target_michel" },
+    {name = "calo_ke",       type = "reco_particle", selector = "target_michel" },
+    {name = "pdg",           type = "true_particle", selector = "target_michel" },
 
-    {name = "start_x",      type = "both_particle", selector = "target_michel", selector_parameters = [8.7] },
-    {name = "start_y",      type = "both_particle", selector = "target_michel", selector_parameters = [8.7] },
-    {name = "start_z",      type = "both_particle", selector = "target_michel", selector_parameters = [8.7] },
+    {name = "start_x",      type = "both_particle", selector = "target_michel" },
+    {name = "start_y",      type = "both_particle", selector = "target_michel" },
+    {name = "start_z",      type = "both_particle", selector = "target_michel" },
 
-    {name = "end_x",        type = "both_particle", selector = "target_michel_parent", selector_parameters = [8.7] },
-    {name = "end_y",        type = "both_particle", selector = "target_michel_parent", selector_parameters = [8.7] },
-    {name = "end_z",        type = "both_particle", selector = "target_michel_parent", selector_parameters = [8.7] },
+    {name = "end_x",        type = "both_particle", selector = "target_michel_parent" },
+    {name = "end_y",        type = "both_particle", selector = "target_michel_parent" },
+    {name = "end_z",        type = "both_particle", selector = "target_michel_parent" },
 
-    {name = "primary_softmax", type = "reco_particle", selector = "target_michel_parent", selector_parameters = [8.7] },
+    {name = "primary_softmax", type = "reco_particle", selector = "target_michel_parent" },
 
 ]

@@ -338,13 +338,13 @@ namespace selectors
      * @return the index of the particle.
      */
     template <class T>
-    size_t target_michel(const T & obj, std::vector<double> params={8.7})
+    size_t target_michel(const T & obj)
     {
         if (params.size() != 1)
             throw std::invalid_argument(
                 "target_michel requires exactly one parameter: distance threshold to the parent muon."
             );
-        auto index = utilities::find_michel_muon_pair(obj, params[0]);
+        auto index = utilities::find_michel_muon_pair(obj);
         if (!index)
             return kNoMatch;
         return index->first;
@@ -359,13 +359,13 @@ namespace selectors
      * @return the index of the particle.
      */
     template <class T>
-    size_t target_michel_parent(const T & obj, std::vector<double> params={8.7})
+    size_t target_michel_parent(const T & obj)
     {
         if (params.size() != 1)
             throw std::invalid_argument(
                 "target_michel requires exactly one parameter: distance threshold to the parent muon."
             );
-        auto index = utilities::find_michel_muon_pair(obj, params[0]);
+        auto index = utilities::find_michel_muon_pair(obj);
         if (!index)
             return kNoMatch;
         return index->second;

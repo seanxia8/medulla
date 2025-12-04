@@ -200,13 +200,16 @@ namespace utilities
         return std::nullopt;
     }
 
+    /**
+    * @brief Finds the indices of a Michel electron and its parent primary muon by the interaction id.
+    * @tparam T the type of interaction (true or reco).
+    * @param obj the interaction to operate on.
+    * @return an optional pair containing the indices of the Michel electron and its parent muon, or std::nullopt if no such pair is found.
+    */
 
     template <class T>
-    std::optional<std::pair<size_t, size_t>> find_michel_muon_pair(const T& obj, double max_dist = 8.7)
+    std::optional<std::pair<size_t, size_t>> find_michel_muon_pair(const T& obj)
     {
-        const double maxd2 = max_dist * max_dist;
-        size_t i_mich = -1; // Michel index placeholder
-        double maxd2_placeholder = maxd2;
         auto michel_indices = find_michel_index(obj);
         if (!michel_indices.has_value()){
             return std::nullopt;
@@ -215,24 +218,30 @@ namespace utilities
         if (!muon_index.has_value()){
             return std::nullopt;
         }
-
+        bool not_matched = true;
+        size_t i_mich = -1; // Michel index placeholder
         for (const auto& mi : michel_indices.value())
         {
             const auto& p = obj.particles[mi]; // Michel
             const auto& q = obj.particles[muon_index.value()]; // Muon
 
-            const double dx = pvars::start_x(p) - pvars::end_x(q);
-            const double dy = pvars::start_y(p) - pvars::end_y(q);
-            const double dz = pvars::start_z(p) - pvars::end_z(q);
-            const double d2 = dx*dx + dy*dy + dz*dz;
+            auto mich_id = int(pvars::interaction_id(p));
+            auto muon_id = int(pvars::interaction_id(q));
 
-            if (d2 < maxd2_placeholder){
-                i_mich = mi;
-                maxd2_placeholder = d2;
+            if (mich_id == muon_id){
+                if (not_matched){
+                    not_matched = false;
+                    i_mich = mi;
+                }
+                else {
+                    throw std::runtime_error(
+                        "Found multiple Michel-muon pairs in find_michel_muon_pair."
+                    );
+                }
             }
         }
 
-        if (i_mich != -1){
+        if (!not_matched){
             return std::make_pair(i_mich, muon_index.value());
         }
         return std::nullopt;

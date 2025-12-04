@@ -855,14 +855,9 @@ namespace vars
     REGISTER_VAR_SCOPE(RegistrationScope::Both, leading_shower_vertex_gap, leading_shower_vertex_gap);
 
     template<class T>
-    double selected_michel_muon_gap(const T & obj, std::vector<double> params={8.7})
+    double selected_michel_muon_gap(const T & obj)
     {
-        if (params.size() != 1)
-            throw std::invalid_argument(
-                "selected_michel_muon_gap expects 1 parameter: distance threshold."
-            );
-        double par = params[0];
-        auto indx = utilities::find_michel_muon_pair(obj, par);
+        auto indx = utilities::find_michel_muon_pair(obj);
         if (!indx.has_value())
             return -1.0;
         size_t i_mich = indx->first;

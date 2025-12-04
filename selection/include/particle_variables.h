@@ -1041,5 +1041,19 @@ namespace pvars
         return p.primary_scores[0];
     }
     REGISTER_VAR_SCOPE(RegistrationScope::RecoParticle, secondary_softmax, secondary_softmax);
+
+    /**
+     * @brief Variable for the interaction id of the particle.
+     * @details The interaction id represents the interaction that the particle belongs to.
+     * @tparam T the type of particle (true or reco).
+     * @param p the particle to apply the variable on.
+     * @return the interaction id of the particle.
+     */
+    template<class T>
+    double interaction_id(const caf::SRParticleDLPProxy & p)
+    {
+        return p.interaction_id;
+    }
+    REGISTER_VAR_SCOPE(RegistrationScope::BothParticle, interaction_id, interaction_id);
 }
 #endif // PARTICLE_VARIABLES_H
