@@ -206,8 +206,9 @@ namespace utilities
     {
         const double maxd2 = max_dist * max_dist;
         size_t i_mich = -1; // Michel index placeholder
+        double maxd2_placeholder = maxd2;
         auto michel_indices = find_michel_index(obj);
-        if (!michel_indices.has_values()){
+        if (!michel_indices.has_value()){
             return std::nullopt;
         }
         auto muon_index = find_primary_muon_index(obj);
@@ -215,7 +216,7 @@ namespace utilities
             return std::nullopt;
         }
 
-        for const auto& mi : michel_indices.value())
+        for (const auto& mi : michel_indices.value())
         {
             const auto& p = obj.particles[mi]; // Michel
             const auto& q = obj.particles[muon_index.value()]; // Muon
@@ -225,9 +226,9 @@ namespace utilities
             const double dz = pvars::start_z(p) - pvars::end_z(q);
             const double d2 = dx*dx + dy*dy + dz*dz;
 
-            if (d2 < maxd2){
+            if (d2 < maxd2_placeholder){
                 i_mich = mi;
-                maxd2 = d2;
+                maxd2_placeholder = d2;
             }
         }
 

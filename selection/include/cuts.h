@@ -552,7 +552,7 @@ namespace cuts
     template<class T>
     bool no_michel(const T & obj)
     {
-        auto indx = utilities::find_michel(obj);
+        auto indx = utilities::find_michel_index(obj);
         return !indx.has_value();
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Both, no_michel, no_michel);
@@ -560,7 +560,7 @@ namespace cuts
     template<class T>
     bool no_primary_muon(const T & obj)
     {
-        auto indx = utilities::find_primary_muon(obj);
+        auto indx = utilities::find_primary_muon_index(obj);
         return !indx.has_value();
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Both, no_primary_muon, no_primary_muon);
