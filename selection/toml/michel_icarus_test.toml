@@ -79,6 +79,14 @@ branch = [
     {name = "ke",            type = "both_particle", selector = "target_michel", selector_parameters = [8.7]},
     {name = "calo_ke",       type = "reco_particle", selector = "target_michel", selector_parameters = [8.7]},
     {name = "pdg",           type = "true_particle", selector = "target_michel", selector_parameters = [8.7]},
+
+    { name = "start_x",      type = "both_particle", selector = "target_michel", selector_parameters = [8.7] },
+    { name = "start_y",      type = "both_particle", selector = "target_michel", selector_parameters = [8.7] },
+    { name = "start_z",      type = "both_particle", selector = "target_michel", selector_parameters = [8.7] },
+
+    { name = "end_x",        type = "both_particle", selector = "target_michel_parent", selector_parameters = [8.7] },
+    { name = "end_y",        type = "both_particle", selector = "target_michel_parent", selector_parameters = [8.7] },
+    { name = "end_z",        type = "both_particle", selector = "target_michel_parent", selector_parameters = [8.7] },
 ]
 
 [[tree]]
@@ -98,4 +106,12 @@ branch = [
     {name = "ke",            type = "both_particle", selector = "target_michel", selector_parameters = [8.7]},
     {name = "calo_ke",       type = "reco_particle", selector = "target_michel", selector_parameters = [8.7]},
     {name = "pdg",           type = "true_particle", selector = "target_michel", selector_parameters = [8.7]},
+
+    { name = "start_x",      type = "both_particle", selector = "target_michel", selector_parameters = [8.7] },
+    { name = "start_y",      type = "both_particle", selector = "target_michel", selector_parameters = [8.7] },
+    { name = "start_z",      type = "both_particle", selector = "target_michel", selector_parameters = [8.7] },
+
+    { name = "end_x",        type = "both_particle", selector = "target_michel_parent", selector_parameters = [8.7] },
+    { name = "end_y",        type = "both_particle", selector = "target_michel_parent", selector_parameters = [8.7] },
+    { name = "end_z",        type = "both_particle", selector = "target_michel_parent", selector_parameters = [8.7] },
 ]
