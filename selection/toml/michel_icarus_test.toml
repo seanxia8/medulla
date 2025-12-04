@@ -18,7 +18,7 @@ cuts = [
     { name = "!no_michel" },
     { name = "!no_primary_muon"   },
     { name = "michel_in_range",   parameters = [8.7] },
-    { name = "is_michel_pdg",   parameters = [-11.0, 8.7] },
+    { name = "is_michel_pdg",     parameters = [-11.0, 8.7] },
 ]
 
 [[category]] # 2 : offbeam gamma
@@ -27,7 +27,7 @@ cuts = [
     { name = "!no_michel" },
     { name = "!no_primary_muon"   },
     { name = "michel_in_range",   parameters = [8.7] },
-    { name = "is_michel_pdg",   parameters = [22.0, 8.7]  },
+    { name = "is_michel_pdg",     parameters = [22.0, 8.7]  },
 ]
 
 [[category]] # 3 : true primary out of range
@@ -35,7 +35,7 @@ cuts = [
     { name = "!neutrino" },
     { name = "!no_michel" },
     { name = "!no_primary_muon"   },
-    { name = "!michel_in_range",   parameters = [8.7] },
+    { name = "!michel_in_range",  parameters = [8.7] },
 ]
 
 [[category]] # 4 : no true primary muon

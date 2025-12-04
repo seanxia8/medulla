@@ -857,9 +857,9 @@ namespace vars
     template<class T>
     double selected_michel_muon_gap(const T & obj, std::vector<double> params={8.7})
     {
-        if (params.size() < 2)
+        if (params.size() != 1)
             throw std::invalid_argument(
-                "is_michel_pdg expects at least two parameters: Michel pdg, distance threshold."
+                "selected_michel_muon_gap expects 1 parameter: distance threshold."
             );
         double par = params[0];
         auto indx = utilities::find_michel_muon_pair(obj, par);
