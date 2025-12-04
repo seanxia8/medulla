@@ -232,7 +232,7 @@ namespace utilities
             }
         }
 
-        if (len(i_mich) == 1){
+        if (i_mich.size() == 1){
             return std::make_pair(i_mich[0], muon_index.value());
         }
         return std::nullopt;
