@@ -237,17 +237,21 @@ namespace utilities
 
             utilities::three_vector michel_start = {pvars::start_x(p), pvars::start_y(p), pvars::start_z(p)};
             utilities::three_vector muon_end = {pvars::end_x(q), pvars::end_y(q), pvars::end_z(q)};
-            double gap_d = utilities::magnitude(utilities::subtract(michel_start, muon_end));
+            utilities::three_vector muon_start = {pvars::start_x(q), pvars::start_y(q), pvars::start_z(q)};
+
+            double gap_d_end = utilities::magnitude(utilities::subtract(michel_start, muon_end));
+            double gap_d_start = utilities::magnitude(utilities::subtract(michel_start, muon_start));
+            double gap_d = std::min(gap_d_end, gap_d_start);
             pairs.push_back({mi, static_cast<size_t>(muon_index.value()), gap_d});
         }
 
         if (pairs.empty())
             return std::nullopt;
-
-        std::sort(pairs.begin(), pairs.end(),
-          [](const MichelMuonPair& a, const MichelMuonPair& b) {
-              return a.gap_distance < b.gap_distance;
-          });
+        if (pairs.size() > 1)
+            std::sort(pairs.begin(), pairs.end(),
+              [](const MichelMuonPair& a, const MichelMuonPair& b) {
+                  return a.gap_distance < b.gap_distance;
+              });
 
         return pairs;
 
