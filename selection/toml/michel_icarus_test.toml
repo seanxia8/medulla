@@ -3,33 +3,31 @@ output = "output"
 pidfn = "default_pid"
 primfn = "default_primary_classification"
 
-[[category]] # 0 : Cosmic mu- to e-
+[[category]] # 0 : Cosmic mu- to e-, single cluster
 cuts = [
     { name = "!neutrino"  },
     { name = "!no_michel" },
     { name = "!no_primary_muon"   },
     { name = "single_michel_cluster"},
-    { name = "michel_in_range",   parameters = [8.7] },
     { name = "is_michel_pdg",     parameters = [11.0] },
 ]
 
-[[category]] # 1 : Cosmic mu- to e-
+[[category]] # 1 : Cosmic mu- to e-, single cluster
 cuts = [
     { name = "!neutrino" },
     { name = "!no_michel" },
     { name = "!no_primary_muon"   },
     { name = "single_michel_cluster"},
-    { name = "michel_in_range",   parameters = [8.7] },
     { name = "is_michel_pdg",     parameters = [-11.0] },
 ]
 
-[[category]] # 2 : true primary out of range
+[[category]] # 2 : Cosmic e-gamma, single cluster
 cuts = [
     { name = "!neutrino" },
     { name = "!no_michel" },
     { name = "!no_primary_muon"   },
     { name = "single_michel_cluster"},
-    { name = "!michel_in_range",  parameters = [8.7] },
+    { name = "is_michel_pdg",     parameters = [22.0] },
 ]
 
 [[category]] # 3 : Cosmic mu- to e- non single cluster
@@ -38,7 +36,6 @@ cuts = [
     { name = "!no_michel" },
     { name = "!no_primary_muon"   },
     { name = "!single_michel_cluster"},
-    { name = "michel_in_range",   parameters = [8.7] },
     { name = "is_michel_pdg",     parameters = [11.0] },
 ]
 
@@ -48,17 +45,16 @@ cuts = [
     { name = "!no_michel" },
     { name = "!no_primary_muon"   },
     { name = "!single_michel_cluster"},
-    { name = "michel_in_range",   parameters = [8.7] },
     { name = "is_michel_pdg",     parameters = [-11.0] },
 ]
 
-[[category]] # 5 : true primary out of range, non-single cluster
+[[category]] # 5 : Cosmic e-gamma, non  single cluster
 cuts = [
     { name = "!neutrino" },
     { name = "!no_michel" },
     { name = "!no_primary_muon"   },
     { name = "!single_michel_cluster"},
-    { name = "!michel_in_range",  parameters = [8.7] },
+    { name = "is_michel_pdg",     parameters = [22.0] },
 ]
 
 [[category]] # 6 : no true primary muon
@@ -81,7 +77,7 @@ cuts = [
 
 [[sample]]
 name = "nominal"
-path = "/pnfs/icarus/persistent/users/mueller/production/simulation/nominal/input000.flat.root"
+path = "/pnfs/icarus/persistent/users/mueller/production/simulation/nominal/input*.flat.root"
 ismc = true
 disable = false
 
