@@ -341,9 +341,9 @@ namespace selectors
     size_t target_michel(const T & obj)
     {
         auto index = utilities::find_michel_muon_pair(obj);
-        if (!index)
+        if (!index || index->empty())
             return kNoMatch;
-        return index->first;
+        return index->front().michel_index;
     }
     REGISTER_SELECTOR(target_michel, target_michel);
 
@@ -358,9 +358,9 @@ namespace selectors
     size_t target_michel_parent(const T & obj)
     {
         auto index = utilities::find_michel_muon_pair(obj);
-        if (!index)
+        if (!index || index->empty())
             return kNoMatch;
-        return index->second;
+        return index->front().muon_index;
     }
     REGISTER_SELECTOR(target_michel_parent, target_michel_parent);
 

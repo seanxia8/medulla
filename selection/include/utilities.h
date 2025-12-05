@@ -200,15 +200,20 @@ namespace utilities
         return std::nullopt;
     }
 
+    struct MichelMuonPair {
+        size_t michel_index;
+        size_t muon_index;
+        double gap_distance;
+    };
+
     /**
     * @brief Finds the indices of a Michel electron and its parent primary muon by the interaction id.
     * @tparam T the type of interaction (true or reco).
     * @param obj the interaction to operate on.
     * @return an optional pair containing the indices of the Michel electron and its parent muon, or std::nullopt if no such pair is found.
     */
-
     template <class T>
-    std::optional<std::pair<size_t, size_t>> find_michel_muon_pair(const T& obj)
+    std::optional<std::vector<MichelMuonPair>> find_michel_muon_pair(const T& obj)
     {
         auto michel_indices = find_michel_index(obj);
         if (!michel_indices.has_value()){
@@ -218,7 +223,8 @@ namespace utilities
         if (!muon_index.has_value()){
             return std::nullopt;
         }
-        std::vector<size_t> i_mich; // Michel index vertex
+        std::vector<MichelMuonPair> pairs;
+
         for (const auto& mi : michel_indices.value())
         {
             const auto& p = obj.particles[mi]; // Michel
@@ -227,15 +233,24 @@ namespace utilities
             auto mich_id = int(pvars::interaction_id(p));
             auto muon_id = int(pvars::interaction_id(q));
 
-            if (mich_id == muon_id){
-                i_mich.push_back(mi);
-            }
+            if (mich_id != muon_id) continue;
+
+            utilities::three_vector michel_start = {pvars::start_x(p), pvars::start_y(p), pvars::start_z(p)};
+            utilities::three_vector muon_end = {pvars::end_x(q), pvars::end_y(q), pvars::end_z(q)};
+            double gap_d = utilities::magnitude(utilities::subtract(michel_start, muon_end));
+            pairs.push_back({mi, static_cast<size_t>(muon_index.value()), gap_d});
         }
 
-        if (i_mich.size() == 1){
-            return std::make_pair(i_mich[0], muon_index.value());
-        }
-        return std::nullopt;
+        if (pairs.empty())
+            return std::nullopt;
+
+        std::sort(pairs.begin(), pairs.end(),
+          [](const MichelMuonPair& a, const MichelMuonPair& b) {
+              return a.gap_distance < b.gap_distance;
+          });
+
+        return pairs;
+
     }
 
 }

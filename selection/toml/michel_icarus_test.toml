@@ -8,6 +8,7 @@ cuts = [
     { name = "!neutrino"  },
     { name = "!no_michel" },
     { name = "!no_primary_muon"   },
+    { name = "single_michel_cluster"},
     { name = "michel_in_range",   parameters = [8.7] },
     { name = "is_michel_pdg",     parameters = [11.0] },
 ]
@@ -17,41 +18,63 @@ cuts = [
     { name = "!neutrino" },
     { name = "!no_michel" },
     { name = "!no_primary_muon"   },
+    { name = "single_michel_cluster"},
     { name = "michel_in_range",   parameters = [8.7] },
     { name = "is_michel_pdg",     parameters = [-11.0] },
 ]
 
-[[category]] # 2 : offbeam gamma
+[[category]] # 2 : true primary out of range
 cuts = [
     { name = "!neutrino" },
     { name = "!no_michel" },
     { name = "!no_primary_muon"   },
-    { name = "michel_in_range",   parameters = [8.7] },
-    { name = "is_michel_pdg",     parameters = [22.0]  },
-]
-
-[[category]] # 3 : true primary out of range
-cuts = [
-    { name = "!neutrino" },
-    { name = "!no_michel" },
-    { name = "!no_primary_muon"   },
+    { name = "single_michel_cluster"},
     { name = "!michel_in_range",  parameters = [8.7] },
 ]
 
-[[category]] # 4 : no true primary muon
+[[category]] # 3 : Cosmic mu- to e- non single cluster
+cuts = [
+    { name = "!neutrino"  },
+    { name = "!no_michel" },
+    { name = "!no_primary_muon"   },
+    { name = "!single_michel_cluster"},
+    { name = "michel_in_range",   parameters = [8.7] },
+    { name = "is_michel_pdg",     parameters = [11.0] },
+]
+
+[[category]] # 4 : Cosmic mu- to e-, non single cluster
+cuts = [
+    { name = "!neutrino" },
+    { name = "!no_michel" },
+    { name = "!no_primary_muon"   },
+    { name = "!single_michel_cluster"},
+    { name = "michel_in_range",   parameters = [8.7] },
+    { name = "is_michel_pdg",     parameters = [-11.0] },
+]
+
+[[category]] # 5 : true primary out of range, non-single cluster
+cuts = [
+    { name = "!neutrino" },
+    { name = "!no_michel" },
+    { name = "!no_primary_muon"   },
+    { name = "!single_michel_cluster"},
+    { name = "!michel_in_range",  parameters = [8.7] },
+]
+
+[[category]] # 6 : no true primary muon
 cuts = [
     { name = "!neutrino" },
     { name = "!no_michel" },
     { name = "no_primary_muon"   },
 ]
 
-[[category]] # 5 : no true michel
+[[category]] # 7 : no true michel
 cuts = [
     { name = "!neutrino" },
     { name = "no_michel" },
 ]
 
-[[category]] # 6 : beam
+[[category]] # 8 : beam
 cuts = [
     { name = "neutrino" },
 ]

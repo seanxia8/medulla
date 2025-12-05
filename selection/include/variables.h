@@ -858,17 +858,10 @@ namespace vars
     double selected_michel_muon_gap(const T & obj)
     {
         auto indx = utilities::find_michel_muon_pair(obj);
-        if (!indx.has_value())
+        if (!indx || indx->empty())
             return -1.0;
-        size_t i_mich = indx->first;
-        size_t i_muon = indx->second;
-        const auto & mich(obj.particles[i_mich]);
-        const auto & muon(obj.particles[i_muon]);
-        // Calculate the distance from the selected michel start point to the
-        // interaction vertex.
-        utilities::three_vector michel_start = {pvars::start_x(mich), pvars::start_y(mich), pvars::start_z(mich)};
-        utilities::three_vector muon_end = {pvars::end_x(muon), pvars::end_y(muon), pvars::end_z(muon)};
-        return utilities::magnitude(utilities::subtract(michel_start, muon_end));
+
+        return indx->front().gap_distance;
     }
     REGISTER_VAR_SCOPE(RegistrationScope::Both, selected_michel_muon_gap, selected_michel_muon_gap);
 

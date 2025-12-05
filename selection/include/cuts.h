@@ -565,6 +565,16 @@ namespace cuts
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Both, no_primary_muon, no_primary_muon);
 
+    template<class T>
+    bool single_michel_cluster(const T & obj)
+    {
+        auto indx = utilities::find_michel_muon_pair(obj);
+        if (!indx)
+            return false;
+        return indx->size() == 1;
+    }
+    REGISTER_CUT_SCOPE(RegistrationScope::Both, single_michel_cluster, single_michel_cluster);
+
     /**
      * @brief Cut to select interactions with a Michel electron within certain range from a primary muon.
      * @tparam T the type of interaction (true or reco).
@@ -580,24 +590,11 @@ namespace cuts
             );
         const double maxd = params[0];
         auto idx = utilities::find_michel_muon_pair(obj);
-        if (!idx.has_value())
+        if (!idx || idx->empty())
             return false;
 
-        auto imich = idx->first;
-        auto imuon = idx->second;
-
-
-        const auto& p = obj.particles[imich]; // Michel
-        const auto& q = obj.particles[imuon]; // Muon
-
-        utilities::three_vector michel_start = {pvars::start_x(p), pvars::start_y(p), pvars::start_z(p)};
-        utilities::three_vector muon_end = {pvars::end_x(q), pvars::end_y(q), pvars::end_z(q)};
-        double gap_d = utilities::magnitude(utilities::subtract(michel_start, muon_end));
-
-        if (gap_d < maxd){
-            return true;
-        }
-        return false;
+        double gap_d = idx->front().gap_distance;
+        return gap_d < maxd;
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Both, michel_in_range, michel_in_range);
 
@@ -617,10 +614,10 @@ namespace cuts
 
         double size_thr   = params[0];
         auto idx = utilities::find_michel_muon_pair(obj);
-        if (!idx.has_value())
+        if (!idx || idx->empty())
             return false;
 
-        const auto& p = obj.particles[idx->first];  // Michel
+        const auto& p = obj.particles[idx->front().michel_index];  // Michel
         return pcuts::size_cut(p, std::vector<double>{size_thr});
     }
     REGISTER_CUT_SCOPE(RegistrationScope::Both, michel_size, michel_size);
@@ -636,15 +633,15 @@ namespace cuts
     {
         if (params.size() != 1)
             throw std::invalid_argument(
-                "is_michel_pdg expects at least two parameters: Michel pdg"
+                "is_michel_pdg expects one parameter: Michel pdg"
             );
 
-        int    target_pdg = static_cast<int>(params[0]);
+        int target_pdg = static_cast<int>(params[0]);
         auto idx = utilities::find_michel_muon_pair(obj);
-        if (!idx)
+        if (!idx || idx->empty())
             return false;
 
-        const auto& p = obj.particles[idx->first];  // Michel
+        const auto& p = obj.particles[idx->front().michel_index];  // Michel
         if (pvars::pdg(p) != 11 && pvars::pdg(p) != -11 && pvars::pdg(p) != 22){
             std::cout << "Michel PDG: " << pvars::pdg(p) << " " << "Target PDG: " << target_pdg << std::endl;
         }
