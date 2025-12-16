@@ -1062,12 +1062,5 @@ namespace pvars
         return p.id;
     }
     REGISTER_VAR_SCOPE(RegistrationScope::BothParticle, self_id, self_id);
-
-    template<class T>
-    double parent_id(const T & p)
-    {
-        return p.parent_id;
-    }
-    REGISTER_VAR_SCOPE(RegistrationScope::BothParticle, parent_id, parent_id);
 }
 #endif // PARTICLE_VARIABLES_H
