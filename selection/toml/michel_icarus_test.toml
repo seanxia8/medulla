@@ -87,8 +87,8 @@ sim_only = false
 mode = "reco"
 cut = [
     {name = "!valid_flashmatch", type = "reco"},
-    {name = "michel_in_range",   type = "reco", parameters = [8.7]},
-    {name = "michel_size",       type = "reco", parameters = [7.0]},
+    {name = "michel_in_range",   type = "reco", parameters = [19.8]},
+    {name = "michel_size",       type = "reco", parameters = [8.0]},
 ]
 branch = [
     {name = "neutrino_id",   type = "true"},
@@ -124,8 +124,8 @@ sim_only = true
 mode = "true"
 cut = [
     {name = "!valid_flashmatch", type = "reco"},
-    {name = "michel_in_range",   type = "true", parameters = [8.7]},
-    {name = "michel_size",       type = "true", parameters = [7.0]},
+    {name = "michel_in_range",   type = "true", parameters = [19.8]},
+    {name = "michel_size",       type = "true", parameters = [8.0]},
 ]
 branch = [
     {name = "neutrino_id",   type = "true"},
