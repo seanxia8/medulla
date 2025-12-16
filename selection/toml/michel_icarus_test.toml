@@ -109,7 +109,13 @@ branch = [
     {name = "end_y",        type = "both_particle", selector = "target_michel_parent" },
     {name = "end_z",        type = "both_particle", selector = "target_michel_parent" },
 
+    {name = "self_id",      type = "both_particle", selector = "target_michel" },
+    {name = "parent_id",    type = "both_particle", selector = "target_michel" },
+    {name = "self_id",      type = "both_particle", selector = "target_michel_parent" },
+    {name = "parent_id",    type = "both_particle", selector = "target_michel_parent" },
+
     {name = "primary_softmax", type = "reco_particle", selector = "target_michel_parent" },
+
 ]
 
 [[tree]]
@@ -139,6 +145,11 @@ branch = [
     {name = "end_x",        type = "both_particle", selector = "target_michel_parent" },
     {name = "end_y",        type = "both_particle", selector = "target_michel_parent" },
     {name = "end_z",        type = "both_particle", selector = "target_michel_parent" },
+
+    {name = "self_id",      type = "both_particle", selector = "target_michel" },
+    {name = "parent_id",    type = "both_particle", selector = "target_michel" },
+    {name = "self_id",      type = "both_particle", selector = "target_michel_parent" },
+    {name = "parent_id",    type = "both_particle", selector = "target_michel_parent" },
 
     {name = "primary_softmax", type = "reco_particle", selector = "target_michel_parent" },
 
