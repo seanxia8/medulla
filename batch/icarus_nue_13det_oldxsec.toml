@@ -1,0 +1,344 @@
+[input]
+path = 'output.root'
+weights = 'data/*flat*.root'
+use_additional_hash = true
+
+[output]
+path = 'output_sys.root'
+histogram_destination = 'variations/'
+
+[[sysvar]]
+name = 'reco_visible_energy'
+bins = [15, 0, 4]
+
+[[sys]]
+name = 'var00'
+type = 'variation'
+index = -1
+nsigma = [-3, -2, -1, 0, 1, 2, 3]
+scale = [-3, -2, -1, 1, 1, 2, 3]
+ordinate = 'nominal'
+points = ['var00', 'var00', 'var00', 'nominal', 'var00', 'var00', 'var00']
+
+[[sys]]
+name = 'var01'
+type = 'variation'
+index = -1
+nsigma = [-3, -2, -1, 0, 1, 2, 3]
+scale = [-3, -2, -1, 1, 1, 2, 3]
+ordinate = 'nominal'
+points = ['var01', 'var01', 'var01', 'nominal', 'var01', 'var01', 'var01']
+
+[[sys]]
+name = 'var02'
+type = 'variation'
+index = -1
+nsigma = [-3, -2, -1, 0, 1, 2, 3]
+scale = [-3, -2, -1, 1, 1, 2, 3]
+ordinate = 'nominal'
+points = ['var02', 'var02', 'var02', 'nominal', 'var02', 'var02', 'var02']
+
+[[sys]]
+name = 'var03'
+type = 'variation'
+index = -1
+nsigma = [-3, -2, -1, 0, 1, 2, 3]
+scale = [1.0, 0.666666, 0.333333, 1, 0.333333, 0.666666, 1.0]
+ordinate = 'nominal'
+points = ['var03m', 'var03m', 'var03m', 'nominal', 'var03p', 'var03p', 'var03p']
+
+[[sys]]
+name = 'var04'
+type = 'variation'
+index = -1
+nsigma = [-3, -2, -1, 0, 1, 2, 3]
+scale = [-3, -2, -1, 1, 1, 2, 3]
+ordinate = 'nominal'
+points = ['var04', 'var04', 'var04', 'nominal', 'var04', 'var04', 'var04']
+
+[[sys]]
+name = 'var05'
+type = 'variation'
+index = -1
+nsigma = [-3, -2, -1, 0, 1, 2, 3]
+scale = [-3, -2, -1, 1, 1, 2, 3]
+ordinate = 'nominal'
+points = ['var05', 'var05', 'var05', 'nominal', 'var05', 'var05', 'var05']
+
+[[sys]]
+name = 'var06'
+type = 'variation'
+index = -1
+nsigma = [-3, -2, -1, 0, 1, 2, 3]
+scale = [-3, -2, -1, 1, 1, 2, 3]
+ordinate = 'nominal'
+points = ['var06', 'var06', 'var06', 'nominal', 'var06', 'var06', 'var06']
+
+[[sys]]
+name = 'var07'
+type = 'variation'
+index = -1
+nsigma = [-3, -2, -1, 0, 1, 2, 3]
+scale = [-3, -2, -1, 1, 1, 2, 3]
+ordinate = 'nominal'
+points = ['var07', 'var07', 'var07', 'nominal', 'var07', 'var07', 'var07']
+
+[[sys]]
+name = 'var09'
+type = 'variation'
+index = -1
+nsigma = [-3, -2, -1, 0, 1, 2, 3]
+scale = [3, 2, 1, 1, 1, 2, 3]
+ordinate = 'nominal'
+points = ['var09m', 'var09m', 'var09m', 'nominal', 'var09p', 'var09p', 'var09p']
+
+[[sys]]
+name = 'var10'
+type = 'variation'
+index = -1
+nsigma = [-3, -2, -1, 0, 1, 2, 3]
+scale = [3, 2, 1, 1, 1, 2, 3]
+ordinate = 'nominal'
+points = ['var10m', 'var10m', 'var10m', 'nominal', 'var10p', 'var10p', 'var10p']
+
+[[sys]]
+name = 'var11'
+type = 'variation'
+index = -1
+nsigma = [-3, -2, -1, 0, 1, 2, 3]
+scale = [-3, -2, -1, 1, 1, 2, 3]
+ordinate = 'nominal'
+points = ['var11', 'var11', 'var11', 'nominal', 'var11', 'var11', 'var11']
+
+[[sys]]
+name = 'var12'
+type = 'variation'
+index = -1
+nsigma = [-3, -2, -1, 0, 1, 2, 3]
+scale = [1.5, 1.0, 0.5, 1, 0.5, 1.0, 1.5]
+ordinate = 'nominal'
+points = ['var12m', 'var12m', 'var12m', 'nominal', 'var12p', 'var12p', 'var12p']
+
+[[sys]]
+name = 'var13'
+type = 'variation'
+index = -1
+nsigma = [-3, -2, -1, 0, 1, 2, 3]
+scale = [3, 2, 1, 1, 1, 2, 3]
+ordinate = 'nominal'
+points = ['var13m', 'var13m', 'var13m', 'nominal', 'var13p', 'var13p', 'var13p']
+
+[[sys]]
+name = "GENIEReWeight_SBN_v1_multisim_ZExpAVariationResponse"
+type = "multisim"
+index = 52
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_RPA_CCQE'
+type = 'multisim'
+index = 53
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_CoulombCCQE'
+type = 'multisim'
+index = 54
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NormCCMEC'
+type = 'multisim'
+index = 55
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NormNCMEC'
+type = 'multisim'
+index = 56
+
+[[sys]]
+name = "GENIEReWeight_SBN_v1_multisim_NCELVariationResponse"
+type = "multisim"
+index = 57
+
+[[sys]]
+name = "GENIEReWeight_SBN_v1_multisim_CCRESVariationResponse"
+type = "multisim"
+index = 58
+
+[[sys]]
+name = "GENIEReWeight_SBN_v1_multisim_NCRESVariationResponse"
+type = "multisim"
+index = 59
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvpCC1pi'
+type = 'multisim'
+index = 60
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvpCC2pi'
+type = 'multisim'
+index = 61
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvpNC1pi'
+type = 'multisim'
+index = 62
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvpNC2pi'
+type = 'multisim'
+index = 63
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvnCC1pi'
+type = 'multisim'
+index = 64
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvnCC2pi'
+type = 'multisim'
+index = 65
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvnNC1pi'
+type = 'multisim'
+index = 66
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvnNC2pi'
+type = 'multisim'
+index = 67
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarpCC1pi'
+type = 'multisim'
+index = 68
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarpCC2pi'
+type = 'multisim'
+index = 69
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarpNC1pi'
+type = 'multisim'
+index = 70
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarpNC2pi'
+type = 'multisim'
+index = 71
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarnCC1pi'
+type = 'multisim'
+index = 72
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarnCC2pi'
+type = 'multisim'
+index = 73
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarnNC1pi'
+type = 'multisim'
+index = 74
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarnNC2pi'
+type = 'multisim'
+index = 75
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_RDecBR1gamma'
+type = 'multisim'
+index = 76
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_RDecBR1eta'
+type = 'multisim'
+index = 77
+
+[[sys]]
+name = "GENIEReWeight_SBN_v1_multisim_COHVariationResponse"
+type = "multisim"
+index = 78
+
+[[sys]]
+name = "GENIEReWeight_SBN_v1_multisim_DISBYVariationResponse"
+type = "multisim"
+index = 79
+
+[[sys]]
+name = "GENIEReWeight_SBN_v1_multisim_FSI_pi_VariationResponse"
+type = "multisim"
+index = 80
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_FSI_N_VariationResponse'
+type = 'multisim'
+index = 81
+
+[[sys]]
+name = "expskin_Flux"
+type = "multisim"
+index = 115
+
+[[sys]]
+name = "horncurrent_Flux"
+type = "multisim"
+index = 116
+
+[[sys]]
+name = 'kminus_Flux'
+type = 'multisim'
+index = 117
+
+[[sys]]
+name = 'kplus_Flux'
+type = 'multisim'
+index = 118
+
+[[sys]]
+name = 'kzero_Flux'
+type = 'multisim'
+index = 119
+
+[[sys]]
+name = "nucleoninexsec_Flux"
+type = "multisim"
+index = 120
+
+[[sys]]
+name = "nucleonqexsec_Flux"
+type = "multisim"
+index = 121
+
+[[sys]]
+name = "nucleontotxsec_Flux"
+type = "multisim"
+index = 122
+
+[[sys]]
+name = "piminus_Flux"
+type = "multisim"
+index = 123
+
+[[sys]]
+name = "pioninexsec_Flux"
+type = "multisim"
+index = 124
+
+[[sys]]
+name = "pionqexsec_Flux"
+type = "multisim"
+index = 125
+
+[[sys]]
+name = "piontotxsec_Flux"
+type = "multisim"
+index = 126
+
+[[sys]]
+name = "piplus_Flux"
+type = "multisim"
+index = 127
