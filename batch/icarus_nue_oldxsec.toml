@@ -1,0 +1,227 @@
+[input]
+path = 'output.root'
+weights = 'data/*flat*.root'
+use_additional_hash = true
+
+[output]
+path = 'output_sys.root'
+histogram_destination = 'variations/'
+
+[[sysvar]]
+name = 'reco_visible_energy'
+bins = [15, 0, 4]
+
+[[sys]]
+name = "GENIEReWeight_SBN_v1_multisim_ZExpAVariationResponse"
+type = "multisim"
+index = 52
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_RPA_CCQE'
+type = 'multisim'
+index = 53
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_CoulombCCQE'
+type = 'multisim'
+index = 54
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NormCCMEC'
+type = 'multisim'
+index = 55
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NormNCMEC'
+type = 'multisim'
+index = 56
+
+[[sys]]
+name = "GENIEReWeight_SBN_v1_multisim_NCELVariationResponse"
+type = "multisim"
+index = 57
+
+[[sys]]
+name = "GENIEReWeight_SBN_v1_multisim_CCRESVariationResponse"
+type = "multisim"
+index = 58
+
+[[sys]]
+name = "GENIEReWeight_SBN_v1_multisim_NCRESVariationResponse"
+type = "multisim"
+index = 59
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvpCC1pi'
+type = 'multisim'
+index = 60
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvpCC2pi'
+type = 'multisim'
+index = 61
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvpNC1pi'
+type = 'multisim'
+index = 62
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvpNC2pi'
+type = 'multisim'
+index = 63
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvnCC1pi'
+type = 'multisim'
+index = 64
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvnCC2pi'
+type = 'multisim'
+index = 65
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvnNC1pi'
+type = 'multisim'
+index = 66
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvnNC2pi'
+type = 'multisim'
+index = 67
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarpCC1pi'
+type = 'multisim'
+index = 68
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarpCC2pi'
+type = 'multisim'
+index = 69
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarpNC1pi'
+type = 'multisim'
+index = 70
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarpNC2pi'
+type = 'multisim'
+index = 71
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarnCC1pi'
+type = 'multisim'
+index = 72
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarnCC2pi'
+type = 'multisim'
+index = 73
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarnNC1pi'
+type = 'multisim'
+index = 74
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_NonRESBGvbarnNC2pi'
+type = 'multisim'
+index = 75
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_RDecBR1gamma'
+type = 'multisim'
+index = 76
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_RDecBR1eta'
+type = 'multisim'
+index = 77
+
+[[sys]]
+name = "GENIEReWeight_SBN_v1_multisim_COHVariationResponse"
+type = "multisim"
+index = 78
+
+[[sys]]
+name = "GENIEReWeight_SBN_v1_multisim_DISBYVariationResponse"
+type = "multisim"
+index = 79
+
+[[sys]]
+name = "GENIEReWeight_SBN_v1_multisim_FSI_pi_VariationResponse"
+type = "multisim"
+index = 80
+
+[[sys]]
+name = 'GENIEReWeight_SBN_v1_multisim_FSI_N_VariationResponse'
+type = 'multisim'
+index = 81
+
+[[sys]]
+name = "expskin_Flux"
+type = "multisim"
+index = 115
+
+[[sys]]
+name = "horncurrent_Flux"
+type = "multisim"
+index = 116
+
+[[sys]]
+name = 'kminus_Flux'
+type = 'multisim'
+index = 117
+
+[[sys]]
+name = 'kplus_Flux'
+type = 'multisim'
+index = 118
+
+[[sys]]
+name = 'kzero_Flux'
+type = 'multisim'
+index = 119
+
+[[sys]]
+name = "nucleoninexsec_Flux"
+type = "multisim"
+index = 120
+
+[[sys]]
+name = "nucleonqexsec_Flux"
+type = "multisim"
+index = 121
+
+[[sys]]
+name = "nucleontotxsec_Flux"
+type = "multisim"
+index = 122
+
+[[sys]]
+name = "piminus_Flux"
+type = "multisim"
+index = 123
+
+[[sys]]
+name = "pioninexsec_Flux"
+type = "multisim"
+index = 124
+
+[[sys]]
+name = "pionqexsec_Flux"
+type = "multisim"
+index = 125
+
+[[sys]]
+name = "piontotxsec_Flux"
+type = "multisim"
+index = 126
+
+[[sys]]
+name = "piplus_Flux"
+type = "multisim"
+index = 127

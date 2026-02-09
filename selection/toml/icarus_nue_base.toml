@@ -303,9 +303,7 @@ sim_only = true
 add_exposure = true
 mode = "true"
 cut = [
-    #{ name = "signal_1eNp",               type = "true" },
-    { name = "all_1eNp_cut",              type = "true"},
-    { name = "is_nue",                    type = "true"},
+    { name = "signal_1eNp",               type = "true" },
     { name = "no_photons",                type = "true", parameters = ["@photon_threshold"] },
     { name = "no_muons",                  type = "true", parameters = ["@muon_threshold"] },
     { name = "no_charged_pions",          type = "true", parameters = ["@pion_threshold"] },
