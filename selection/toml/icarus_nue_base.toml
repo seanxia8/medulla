@@ -89,114 +89,6 @@ path = "/pnfs/icarus/persistent/users/mueller/production/simulation/cvext/input*
 ismc = true
 disable = false
 
-[[sample]]
-name = "var00"
-path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var00/input*.flat.root"
-ismc = true
-disable = false
-
-[[sample]]
-name = "var01"
-path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var01/input*.flat.root"
-ismc = true
-disable = false
-
-[[sample]]
-name = "var02"
-path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var02/input*.flat.root"
-ismc = true
-disable = false
-
-[[sample]]
-name = "var03m"
-path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var03m/input*.flat.root"
-ismc = true
-disable = false
-
-[[sample]]
-name = "var03p"
-path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var03p/input*.flat.root"
-ismc = true
-disable = false
-
-[[sample]]
-name = "var04"
-path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var04/input*.flat.root"
-ismc = true
-disable = false
-
-[[sample]]
-name = "var05"
-path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var05/input*.flat.root"
-ismc = true
-disable = false
-
-[[sample]]
-name = "var06"
-path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var06/input*.flat.root"
-ismc = true
-disable = false
-
-[[sample]]
-name = "var07"
-path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var07/input*.flat.root"
-ismc = true
-disable = false
-
-[[sample]]
-name = "var09m"
-path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var09m/input*.flat.root"
-ismc = true
-disable = false
-
-[[sample]]
-name = "var09p"
-path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var09p/input*.flat.root"
-ismc = true
-disable = false
-
-[[sample]]
-name = "var10m"
-path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var10m/input*.flat.root"
-ismc = true
-disable = false
-
-[[sample]]
-name = "var10p"
-path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var10p/input*.flat.root"
-ismc = true
-disable = false
-
-[[sample]]
-name = "var11"
-path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var11/input*.flat.root"
-ismc = true
-disable = false
-
-[[sample]]
-name = "var12m"
-path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var12m/input*.flat.root"
-ismc = true
-disable = false
-
-[[sample]]
-name = "var12p"
-path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var12p/input*.flat.root"
-ismc = true
-disable = false
-
-[[sample]]
-name = "var13m"
-path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var13m/input*.flat.root"
-ismc = true
-disable = false
-
-[[sample]]
-name = "var13p"
-path = "/pnfs/icarus/persistent/users/mueller/production/simulation/var13p/input*.flat.root"
-ismc = true
-disable = false
-
 [[tree]]
 name = "selectedNu"
 sim_only = false
@@ -215,7 +107,7 @@ cut = [
     { name = "trigger_emulation_cut",     type = "event", decrements_exposure = true },
     { name = "data_quality_cut",          type = "event", decrements_exposure = true },
     { name = "beam_quality_cut",          type = "spill", decrements_exposure = true }, # Should decrement exposure, but CAF files are bugged
-    { name = "bnb_fom2_cut",              type = "event", decrements_exposure = true, parameters = ["@bnb_fom2_cut"]}, # Should decrement exposure, but CAF files are bugged
+    #{ name = "bnb_fom2_cut",              type = "event", decrements_exposure = true, parameters = ["@bnb_fom2_cut"]}, # Should decrement exposure, but CAF files are bugged
 ]
 
 branch = [
@@ -312,7 +204,7 @@ cut = [
     { name = "trigger_emulation_cut",     type = "event", decrements_exposure = true },
     { name = "data_quality_cut",          type = "event", decrements_exposure = true },
     { name = "beam_quality_cut",          type = "spill", decrements_exposure = true }, # Should decrement exposure, but CAF files are bugged
-    { name = "bnb_fom2_cut",              type = "event", decrements_exposure = true, parameters = ["@bnb_fom2_cut"]}, # Should decrement exposure, but CAF files are bugged
+    #{ name = "bnb_fom2_cut",              type = "event", decrements_exposure = true, parameters = ["@bnb_fom2_cut"]}, # Should decrement exposure, but CAF files are bugged
 ]
 branch = [
     # Interaction-level truth/reco branches
